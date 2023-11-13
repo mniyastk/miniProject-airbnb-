@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../assets/pngwing.com.png'
+import logo from '../assets/pngwing.com.png.png'
 import bell from '../assets/bell-fill.svg'
 export const HostNavBar = () => {
   return (
