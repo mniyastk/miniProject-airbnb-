@@ -27,7 +27,7 @@ export const Navbar = () => {
   return (
     <div className="w-full h-[80px] flex border-b border-b-slate-300">
       <div className="flex-1 flex items-center ">
-        <img src={logo} alt="logo" className="w-[104px] h-[31px] ml-10" />
+       <Link to={'/'}><img src={logo} alt="logo" className="w-[104px] h-[31px] ml-10 hover:cursor-pointer" /></Link> 
       </div>
       <div className="flex-1 flex justify-center items-center ">
         <div className="w-[360px] h-[50px] rounded-[25px] border-solid border-black border-[.5px] border-opacity-20 flex items-center justify-around shadow-lg">
