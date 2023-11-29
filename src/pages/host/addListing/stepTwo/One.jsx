@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import wifi from "../../../../assets/wifi.svg";
 import Tv from "../../../../assets/tv.svg";
 import kitchen from "../../../../assets/kitchen.svg";
@@ -42,8 +42,17 @@ export const One = () => {
       src: workspace,
     },
   ];
+  const [toggle, setToggle] = useState([]);
+
+  const handleClick = (e) => {
+    if (toggle.includes(e)) {
+      setToggle(toggle.filter((item) => item !== e));
+    } else {
+      setToggle([...toggle, e]);
+    }
+  };
   return (
-    <div className="w-1/2 h-full bg-slate-100">
+    <div className="w-1/2 h-max">
       <div>
         <h1 className="text-[32px] font-semibold leading-[36px] py-5 ">
           Tell guests what your place has to offer
@@ -52,18 +61,26 @@ export const One = () => {
           You can add more amenities after you publish your listing.
         </p>
       </div>
-      <div className="w-full h-[400px] p-2 flex flex-wrap justify-around">
+      <div className="w-full h-[300px] p-2 flex flex-wrap justify-start ">
         {data.map((item, index) => {
           return (
-            <div className="w-[32%] h-1/3 rounded-md flex flex-col items-start justify-center pl-3">
-              <img src={wifi} alt="imgs" className="my-2" />
-              <h2 className="font-semibold">Wifi</h2>
+            <div
+              className={`w-[27%] h-1/3 rounded-md flex flex-col items-start justify-center pl-3 m-3 border hover:outline outline-2 ${
+                toggle.includes(item.title)
+                  ? "outline outline-2 bg-slate-100"
+                  : ""
+              }`}
+              key={index}
+              onClick={() => handleClick(item.title)}
+            >
+              <img src={item.src} alt="imgs" className="" />
+              <h2 className="font-semibold">{item.title}</h2>
             </div>
           );
         })}
-
-        <div className="w-[32%] h-1/3 rounded-md bg-slate-500"></div>
-        <div className="w-[32%] h-1/3 rounded-md bg-slate-500"></div>
+    
+         
+      
       </div>
     </div>
   );

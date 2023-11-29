@@ -21,7 +21,7 @@ export const SignUp = () => {
     e.preventDefault();
     try {
       console.log("hi")
-      await axios.post("/user/register", {userData})
+      await axios.post("/api/user/register", {userData})
       alert('success')
       console.log("user registered successfuly");
     } catch (error) {
