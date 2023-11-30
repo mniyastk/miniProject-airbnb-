@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 export const SignUp = () => {
-  // const [users, setUsers] = useState([]);
+  const [errors, setErrors] = useState("");
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
@@ -19,15 +19,11 @@ export const SignUp = () => {
   };
   const handlesubmit = async (e) => {
     e.preventDefault();
-    try {
-      console.log("hi")
-      await axios.post("/api/user/register", {userData})
-      alert('success')
-      console.log("user registered successfuly");
-    } catch (error) {
-      console.log("error during user registration:", error);
-      alert("error")
-    }
+
+    axios
+      .post("/api/user/register", { userData })
+      .then((data) => console.log(data))
+      .catch((e) => setErrors(e.response.data.message));
   };
 
   return (
@@ -87,6 +83,7 @@ export const SignUp = () => {
           placeholder="confirm password"
         />
         {/* <label htmlFor=""></label> */}
+        {errors}
         <button
           className=" w-13 h-8 border mt-3 rounded-md bg-rose-600 font-bold text-sm text-white"
           onClick={(e) => handlesubmit(e)}

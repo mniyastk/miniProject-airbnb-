@@ -3,17 +3,26 @@ import axios from "axios";
 
 function SignIn() {
   // const dispatch =useDispatch
+  const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleClick = async (e) => {
     e.preventDefault();
-    await axios
-      .post("/api/user/login", { email, password })
-      .then((data) => console.log(data))
-      .catch((e) => console.log(e));
+    if (email==="" || password === "") {
+      setError("Please enter email and password !!");
+    } else {
+      await axios
+        .post("/api/user/login", { email, password })
+        .then((data) => console.log(data))
+        .then(() => alert("login suceess"))
+        .catch((e) => {
+          console.log(e)  
+          setError("Invalid credentials")
+        });
+    }
   };
   return (
-    <div className="w-3/4">
+    <div className="w-3/4 flex flex-col justify-center items-center">
       <form
         className="w-full flex flex-col justify-center items-center"
         onSubmit={(e) => handleClick(e)}
@@ -21,8 +30,11 @@ function SignIn() {
         <input
           type="email"
           placeholder="E-mail"
-          className="w-full border rounded-md"
-          onChange={(e) => setEmail(e.target.value)}
+          className="w-full border rounded-md h-12 pl-2 outline-1"
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setError("");
+          }}
         />
         <br />
         <br />
@@ -30,15 +42,22 @@ function SignIn() {
         <input
           type="password"
           placeholder="password"
-          className="w-full border rounded-md"
-          onChange={(e) => setPassword(e.target.value)}
+          className="w-full border rounded-md h-12 pl-2 outline-1"
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setError("");
+          }}
         />
-        {/* <input className=" w-[150px] h-8 border mt-3 rounded-md bg-rose-600 font-bold text-sm text-white" type ="submit" >
+        <button
+          className=" w-[150px] h-8 border mt-5 rounded-md bg-rose-600 font-bold text-sm text-white"
+          type="submit"
+        >
           {" "}
           Sign In{" "}
-        </input> */}
-        <input type="submit" value="dgdf" />
+        </button>
+        {/* <input type="submit" value="dgdf" /> */}
       </form>
+      <p className="mt-3 font-bold text-red-800">{error}</p>
     </div>
   );
 }
