@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import logo from "../../../assets/black.png";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 export const AddListingLayout = () => {
+  const {state} = useSelector((data)=>data.data)
+
   const navigationPath = [
     "stepOne",
     "step2",
@@ -19,6 +22,7 @@ export const AddListingLayout = () => {
     "OneThree",
     "Price",
   ];
+  console.log(state);
   const [count, setCount] = useState(1);
   const navigate = useNavigate();
   const handleClick = (pCount) => {
@@ -60,7 +64,7 @@ export const AddListingLayout = () => {
           Back
         </button>
         <button
-          className="px-2 text-sm font-bold text-white bg-black rounded-md h-10 w-14"
+          className={`px-2 text-sm font-bold text-white bg-black rounded-md h-10 w-14 ${!state?"hover:cursor-not-allowed opacity-50":""}`}
           onClick={() => handleClick(count)}
         >
           {" "}

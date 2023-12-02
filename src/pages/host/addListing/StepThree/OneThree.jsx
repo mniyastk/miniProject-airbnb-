@@ -1,6 +1,9 @@
 import React from "react";
 
+
 const OneThree = () => {
+ 
+
   return (
     <div className="flex h-full w-ful justify-center items-center">
       <div className=" w-3/4 flex ">

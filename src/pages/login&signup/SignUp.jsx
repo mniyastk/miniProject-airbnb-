@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+
 
 export const SignUp = () => {
+  const navigate = useNavigate();
   const [errors, setErrors] = useState("");
   const [userData, setUserData] = useState({
     firstName: "",
@@ -19,12 +24,24 @@ export const SignUp = () => {
   };
   const handlesubmit = async (e) => {
     e.preventDefault();
-
-    axios
-      .post("/api/user/register", { userData })
+    if (!Object.values(userData).every((value) => value !== "")) {
+      toast("Input fields can't be empty ");
+    }else{
+      axios
+      .post("http://localhost:3000/api/user/register", { userData })
       .then((data) => console.log(data))
-      .catch((e) => setErrors(e.response.data.message));
+      .catch((e) => {
+        setErrors(e.response?.data?.message);
+        console.log(e);
+      });
+    }
+   
+
+   
   };
+  // const warn=()=>{
+  //   toast("hihihih")
+  // }
 
   return (
     <div className="w-full flex justify-center items-center h-full">
@@ -37,6 +54,7 @@ export const SignUp = () => {
           name="firstName"
           onChange={(e) => handleChange(e)}
         />
+
         <br />
         {/* <label htmlFor=""> Last Name</label> */}
         <input
@@ -90,7 +108,10 @@ export const SignUp = () => {
         >
           Sign Up
         </button>
+       
+        
       </form>
+     
     </div>
   );
 };

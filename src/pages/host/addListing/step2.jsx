@@ -30,6 +30,8 @@ import treeHouse from "../../../assets/tree-house-svgrepo-com.svg";
 import Trullo from "../../../assets/trullo-svgrepo-com.svg";
 import Windmill from "../../../assets/windmill-svgrepo-com.svg";
 import Yurt from "../../../assets/yurt-svgrepo-com.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { addProperty, setState } from "../../../redux/slices";
 
 export const Step2 = () => {
   const data = [
@@ -158,6 +160,13 @@ export const Step2 = () => {
       src: Yurt,
     },
   ];
+  // const {state} = useSelector(data=>data.data)
+  const {property}=useSelector(data=>data.data)
+  console.log(property)
+  const dispatch = useDispatch()
+
+  // const [propertyType,setPropertyType]=useState(property.propertyType)
+
   const [toggle, setToggle] = useState("");
   const handleToggle = (e) => {
     setToggle(e);
@@ -176,7 +185,12 @@ export const Step2 = () => {
                   toggle === item.title ? "bg-slate-200 outline outline-2" : ""
                 }`}
                 key={index}
-                onClick={() => handleToggle(item.title)}
+                onClick={() =>{
+                   handleToggle(item.title)
+
+                  dispatch(addProperty({property:"propertyType",data:item.title}))
+                  dispatch(setState(true))
+                  }}
               >
                 <img src={item.src} alt="logo" className="w-[30px] h-[30px]" />
                 <h3 className="font-semibold text-base pt-1"> {item.title}</h3>

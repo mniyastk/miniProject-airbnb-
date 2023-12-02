@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import home from "../../../assets/home.svg";
 import door from "../../../assets/door.svg";
 import shared from "../../../assets/shared room.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { addProperty } from "../../../redux/slices";
 
 const StepThree = () => {
   const data = [
@@ -30,6 +32,10 @@ const StepThree = () => {
   const handleToggle = (e) => {
     setToggle(e);
   };
+  const {property}= useSelector(data=>data.data)
+  console.log(property)
+  const dispatch = useDispatch()
+
   return (
     <div className="w-1/2 ">
       <h1 className="text-[32px] font-semibold leading-[36px] py-5 ">
@@ -43,7 +49,10 @@ const StepThree = () => {
                 toogle === item.id ? " bg-slate-200 outline" : ""
               }`}
               key={item.id}
-              onClick={() => handleToggle(item.id)}
+              onClick={() => {
+                handleToggle(item.id)
+                dispatch(addProperty({property:"stayType",data:item.title}))
+              }}
             >
               <div className="">
                 <h1 className="font-semibold text-lg">{item.title}</h1>{" "}

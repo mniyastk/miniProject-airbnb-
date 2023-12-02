@@ -1,6 +1,7 @@
 import React from "react";
 // import cardImage from '../assets/Rectangle 9.svg'
 export const StayCard = ({data}) => {
+  
   return (
     <div className=" w-[305px] h-[390px] flex flex-col">
       <img src={data.image} alt="images" className="w-[300px] h-[285px]" />

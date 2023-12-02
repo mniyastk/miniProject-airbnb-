@@ -5,9 +5,13 @@ import filter from "../../assets/Frame.svg";
 import { StayCard } from "../../components/stayCard";
 import { staysData } from "../../data/stays";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const Home = () => {
   console.log(navitems);
+  const {listings} = useSelector(data=>data.data);
+  console.log(listings);
+  
   return (
     <div>
       <Navbar />

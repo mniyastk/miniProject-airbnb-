@@ -7,6 +7,8 @@ import car from "../../../../assets/car.svg";
 import scale from "../../../../assets/scale.svg";
 import ac from "../../../../assets/ac.svg";
 import workspace from "../../../../assets/workspace.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { addProperty } from "../../../../redux/slices";
 export const One = () => {
   const data = [
     {
@@ -43,13 +45,17 @@ export const One = () => {
     },
   ];
   const [toggle, setToggle] = useState([]);
-
+  const {property}= useSelector(data=>data.data)
+  console.log(property)
+  const dispatch = useDispatch()
+console.log(toggle)
   const handleClick = (e) => {
     if (toggle.includes(e)) {
       setToggle(toggle.filter((item) => item !== e));
     } else {
       setToggle([...toggle, e]);
     }
+    dispatch(addProperty({property:"amenities",data:toggle}))
   };
   return (
     <div className="w-1/2 h-max">
@@ -71,7 +77,10 @@ export const One = () => {
                   : ""
               }`}
               key={index}
-              onClick={() => handleClick(item.title)}
+              onClick={() =>{
+                 handleClick(item.title)
+
+                }}
             >
               <img src={item.src} alt="imgs" className="" />
               <h2 className="font-semibold">{item.title}</h2>
