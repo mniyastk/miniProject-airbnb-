@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar } from "../../../components/navbar";
 import { Footer } from "../../../components/footer";
 import star from "../../../assets/star.svg";
@@ -14,7 +14,19 @@ import des1 from "../../../assets/des1.svg";
 import des2 from "../../../assets/des2.svg";
 import des3 from "../../../assets/des3.svg";
 import security from "../../../assets/security.svg";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 export const StayDetail = () => {
+  const [stay, setStay] = useState({});
+  const { id } = useParams();
+  useEffect( () => {
+     axios
+      .get(`http://localhost:4000/api/user/${id}`)
+      .then((data) => console.log(data))
+      .catch((e) => console.log(e));
+    
+   
+  }, [id]);
   return (
     <div>
       <Navbar />
@@ -170,8 +182,17 @@ export const StayDetail = () => {
             </div>
             <div className="w-5/6 h-32  rounded-[10px] overflow-hidden border">
               <div className="w-full h-1/2 flex ">
-                <div className=" w-1/2 h-full "><input type="date" name="" id="" className="w-full h-full border-r "/></div>
-                <div className=" w-1/2 h-full "><input type="date" name="" id=""  className="w-full h-full"/></div>
+                <div className=" w-1/2 h-full ">
+                  <input
+                    type="date"
+                    name=""
+                    id=""
+                    className="w-full h-full border-r "
+                  />
+                </div>
+                <div className=" w-1/2 h-full ">
+                  <input type="date" name="" id="" className="w-full h-full" />
+                </div>
               </div>
               <div className="h-1/2 border-t">
                 {" "}
@@ -183,12 +204,19 @@ export const StayDetail = () => {
                   <option value="">5 guests</option>
                 </select>{" "}
               </div>
-             
             </div>
-            <button className="w-5/6 h-[50px] bg-[#FF385C] mt-3 rounded-md"><span className="font-bold">Reserve</span></button>
+            <button className="w-5/6 h-[50px] bg-[#FF385C] mt-3 rounded-md">
+              <span className="font-bold">Reserve</span>
+            </button>
             <span className="mt-3">You won't be charged yet </span>
-            <div className="flex justify-between w-5/6 mt-16"><span>Airbnb service fee</span><span className="font-bold">₹6,374</span></div>
-            <div className="flex justify-between w-5/6 mt-5"><span>Total</span><span className="font-bold">₹51,526</span></div>
+            <div className="flex justify-between w-5/6 mt-16">
+              <span>Airbnb service fee</span>
+              <span className="font-bold">₹6,374</span>
+            </div>
+            <div className="flex justify-between w-5/6 mt-5">
+              <span>Total</span>
+              <span className="font-bold">₹51,526</span>
+            </div>
           </div>
         </div>
 

@@ -60,7 +60,7 @@ export const Navbar = () => {
       </div>
       <div className="flex-1  flex items-center justify-end ">
         <Link to={"/host"}>
-          <button className="w-[150px] h-[35px] font-normal ">
+          <button className="w-[150px] h-[35px] font-semibold hover:">
             Switch to hosting
           </button>
         </Link>

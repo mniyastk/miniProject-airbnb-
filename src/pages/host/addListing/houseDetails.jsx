@@ -32,6 +32,9 @@ const HouseDetails = () => {
           <div><CountButton data={"bathrooms"}/></div>
         </div>
       </div>
+      {/* <div>
+        <button onClick={}> confirm</button>
+      </div> */}
     </div>
   );
 };

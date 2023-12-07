@@ -28,7 +28,7 @@ export const SignUp = () => {
       toast("Input fields can't be empty ");
     }else{
       axios
-      .post("http://localhost:3000/api/user/register", { userData })
+      .post("http://localhost:4000/api/user/register", { userData })
       .then((data) => console.log(data))
       .catch((e) => {
         setErrors(e.response?.data?.message);

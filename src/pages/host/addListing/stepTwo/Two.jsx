@@ -7,12 +7,17 @@ const Two = () => {
 
   const handleChange = (e) => {
     const file = e.target.files;
+    console.log(file);
     setFiles(Array.from(file));
     console.log(files);
   };
   const { property } = useSelector((data) => data.data);
   console.log(property);
   const dispatch = useDispatch();
+  const handleClick = () => {
+    
+    dispatch(addProperty({ property: "images", data: files }));
+  };
 
   return (
     <div className="w-1/2 h-max ">
@@ -51,9 +56,7 @@ const Two = () => {
 
             <button
               className="bg-red-500 w-20 h-8 rounded-md font-semibold text-sm"
-              onClick={() =>
-                dispatch(addProperty({ property: "images", data: files }))
-              }
+              onClick={handleClick}
             >
               Upload
             </button>

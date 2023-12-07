@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar } from "../../components/navbar";
 import { navitems } from "../../data/menubar";
 import filter from "../../assets/Frame.svg";
@@ -6,12 +6,23 @@ import { StayCard } from "../../components/stayCard";
 import { staysData } from "../../data/stays";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 export const Home = () => {
   console.log(navitems);
-  const {listings} = useSelector(data=>data.data);
+  const { listings } = useSelector((data) => data.data);
+  const [stays,setStays]= useState([])
+  console.log(stays)
+  console.log();
   console.log(listings);
-  
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/api/user/stays")
+      .then((data) => setStays(data.data.data))
+      .catch((e) => console.log(e));
+  }, []);
+
+  //TODO :eslint
   return (
     <div>
       <Navbar />
@@ -50,12 +61,13 @@ export const Home = () => {
         </div>
       </div>
       <div className="h-auto flex flex-wrap justify-between px-10 ">
-        {staysData.map((item,index)=>{
-          return(
-           <NavLink to ="/stay"><StayCard data={item} key={index}/></NavLink> 
-          )
+        {stays.map((item, index) => {
+          return (
+            <NavLink to={`/${item._id}`}>
+              <StayCard data={item} key={index} />
+            </NavLink>
+          );
         })}
-        
       </div>
     </div>
   );

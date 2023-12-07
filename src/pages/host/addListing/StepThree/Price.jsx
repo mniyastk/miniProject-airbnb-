@@ -1,13 +1,48 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addListings, addProperty } from "../../../../redux/slices";
+import { addProperty } from "../../../../redux/slices";
+import axios from "axios";
 const Price = () => {
   const { property } = useSelector((data) => data.data);
   const { listings } = useSelector((data) => data.data);
-  console.log(listings);
+  const file =property.images
+  console.log(file)
   console.log(property);
+  const handleSubmission=()=>{
+    dispatch(addProperty({ property: "price", data: price }))
+  console.log(property)
+  }
+  const datas= {property:{
+    property
+  }}
+  
+
   const dispatch = useDispatch();
   const [price, setPrice] = useState("1000");
+  const formData = new FormData()
+    formData.append("property",JSON.stringify(datas.property))
+    for (let i = 0; i < file.length; i++) {
+      formData.append('image', file[i]);
+    }
+   
+
+
+  const handleClick =async () => {
+    
+    try {
+      await  axios
+        .post("http://localhost:4000/api/host/addlisting", formData,{
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((data) => console.log(data))
+        .catch((e) => console.log(e));
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
   return (
     <div className="w-1/2 h-max">
       <h1 className="text-[32px] font-semibold leading-[36px] py-5 ">
@@ -29,20 +64,13 @@ const Price = () => {
         {" "}
         <button
           className="bg-red-500 w-20 h-8 rounded-md font-semibold text-sm"
-          onClick={() =>
-            dispatch(addProperty({ property: "price", data: price }))
-          }
+          onClick={handleSubmission}
         >
           confirm
         </button>
-        <button
-          className="bg-green-500 w-20 h-8 rounded-md font-semibold text-sm text-white "
-          onClick={() => {
-            dispatch(addListings(property));
-          }}
-        >
-          Finish
-        </button>
+
+        <button onClick={handleClick}  className="bg-green-500 w-20 h-8 rounded-md font-semibold text-sm" >Add Property</button>
+        
       </div>
     </div>
   );

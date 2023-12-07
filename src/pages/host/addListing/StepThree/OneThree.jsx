@@ -3,7 +3,6 @@ import React from "react";
 
 const OneThree = () => {
  
-
   return (
     <div className="flex h-full w-ful justify-center items-center">
       <div className=" w-3/4 flex ">
@@ -27,6 +26,7 @@ const OneThree = () => {
             Your browser does not support the video tag.
           </video>
         </div>
+     
       </div>
     </div>
   );

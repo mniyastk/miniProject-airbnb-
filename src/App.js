@@ -17,6 +17,8 @@ import Three from "./pages/host/addListing/stepTwo/Three";
 import Four from "./pages/host/addListing/stepTwo/Four";
 import OneThree from "./pages/host/addListing/StepThree/OneThree";
 import Price from "./pages/host/addListing/StepThree/Price";
+import Test from "./components/test";
+import TestTwo from "./components/test2";
 
 function App() {
 
@@ -24,8 +26,10 @@ function App() {
    <>
    <Routes>
     <Route path="/" element={<Home/>}/>
-    <Route path="/stay" element={<StayDetail/>}/>
+    <Route path="/:id" element={<StayDetail/>}/>
     <Route path="/host" element={<HostHome/>}/>
+    <Route path="/test" element={<Test/>}/>
+    <Route path="/test2" element={<TestTwo/>}/>
     <Route path="/addListings" element={<AddListingLayout/>}>
       <Route index element={<StepOne/>}/>
       <Route path="stepOne" element={<StepOne/>}/>
