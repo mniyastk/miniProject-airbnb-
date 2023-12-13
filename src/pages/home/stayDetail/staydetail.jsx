@@ -18,29 +18,32 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 export const StayDetail = () => {
   const [stay, setStay] = useState({});
+  const [data,setData]= useState()
   const { id } = useParams();
   useEffect( () => {
      axios
       .get(`http://localhost:4000/api/user/${id}`)
-      .then((data) => console.log(data))
+      .then((data) => setData(data.data.data))
       .catch((e) => console.log(e));
     
    
   }, [id]);
+  console.log(data)
   return (
     <div>
       <Navbar />
-      <div className="px-[115px]">
+      <div className="px-[115px] pt-5">
         <div className="">
           <h1 className="font-bold text-2xl">
-            Ocean view Room - White town || Rock beach
+            {data?.title}
+            {/* Ocean view Room - White town || Rock beach */}
           </h1>
         </div>
         <div className="flex justify-between items-center">
           <div className="flex ">
             {" "}
             <img src={star} alt="rating" className="h-[20px] w-[20px]" />{" "}
-            <p>4.83 ·121 reviews·Puducherry, India</p>{" "}
+            <p>4.83 ·121 reviews·{data?.address?.District_localty}, {data?.country}</p>{" "}
           </div>
           <div className="flex w-[150px] justify-around">
             {" "}
@@ -50,20 +53,21 @@ export const StayDetail = () => {
         </div>
         <div className="flex  w-[100%] h-[300px] rounded-[25px]">
           <div className="w-[50%]  rounded-l-lg overflow-hidden">
-            <img src={img1} alt="img1" className="w-[100%] h-[100%]" />
+            
+            <img src={data?.images[0]?.url} alt="img1" className="w-[100%] h-[100%]" />
           </div>
           <div className="flex flex-wrap w-[50%] h-[100%] pl-4 justify-between gap-3 ">
             <div className="w-[49%] h-[48%] overflow-hidden">
-              <img src={img2} alt="img2" className="w-[100%] h-[100%]" />
+              <img src={data?.images[1]?.url} alt="img2" className="w-[100%] h-[100%]" />
             </div>
             <div className="w-[48%] h-[48%]  rounded-tr-lg overflow-hidden">
-              <img src={img3} alt="img3" className="w-[100%] h-[100%]" />
+              <img src={data?.images[2]?.url} alt="img3" className="w-[100%] h-[100%]" />
             </div>
             <div className="w-[49%] h-[48%]  overflow-hidden">
-              <img src={img4} alt="img4" className="w-[100%] h-[100%]" />
+              <img src={data?.images[3]?.url} alt="img4" className="w-[100%] h-[100%]" />
             </div>
             <div className="w-[48%] h-[48%]  rounded-br-lg overflow-hidden">
-              <img src={img5} alt="img5" className="w-[100%] h-[100%]" />
+              <img src={data?.images[4]?.url} alt="img5" className="w-[100%] h-[100%]" />
             </div>
           </div>
         </div>
@@ -73,9 +77,9 @@ export const StayDetail = () => {
               {" "}
               <div>
                 <p className="font-bold text-2xl">
-                  Entire cabin hosted by Shubhangi
+                 {data?.stayType } hosted by Shubhangi
                 </p>
-                <p>4 guests2 bedrooms2 beds1 bathroom</p>
+                <p>{data?.maxGuests} guests {data?.bedRooms}  bedrooms {data?.beds} beds {data?.bathrooms} bathroom</p>
               </div>
               <div className="rounded-[100%] w-10 h-10 overflow-hidden border">
                 {" "}
@@ -117,13 +121,7 @@ export const StayDetail = () => {
             </div>
             <div className="h-[250px] w-[75%] border-b">
               <p className="py-8 ">
-                Immerse yourself in nature and pure luxury at Shangrila Rénao
-                situated on top of Tandi hill near Jibhi. Not only can you pour
-                yourself in a hot bubble bath but also enjoy the stunning views
-                right from your bathtub. Away from the road or any traffic noise
-                all you hear are birds chirping and you might as well catch a
-                sight of flying squirrel or a shooting star at night from your
-                all glass cabin.{" "}
+               {data?.description}
               </p>
             </div>
             <div className="h-[380px] w-[75%] border-b mt-2">
@@ -175,7 +173,7 @@ export const StayDetail = () => {
           </div>
           <div className="w-[35%] h-[520px] mt-7 sticky top-0 rounded-[20px] shadow-xl flex flex-col items-center">
             <div className="flex items-center px-3 pt-2 h-12 ">
-              <p className="font-bold text-xl pr-3">₹9,030</p>{" "}
+              <p className="font-bold text-xl pr-3">₹ {data?.price}</p>{" "}
               <p className="pr-3">night</p>{" "}
               <img src={star} alt="df" className="w-3 h-3" />{" "}
               <span className="font-bold">4.76</span> <span>· 25 reviews</span>

@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProperty } from "../../../redux/slices";
+import { DevTool } from "@hookform/devtools";
+import { useForm } from "react-hook-form";
 
 const Address = () => {
+  const form = useForm();
+  const {register,control,handleSubmit,formState}= form
+  const {errors}= formState
+
   const [address, setAddress] = useState({
     plot: "",
     NearbyLandmark: "",
@@ -111,6 +117,7 @@ const Address = () => {
       >
         confirm
       </button>
+      <DevTool control ={control}/>
     </div>
   );
 };

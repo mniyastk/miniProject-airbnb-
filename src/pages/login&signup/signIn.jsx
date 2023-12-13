@@ -3,81 +3,82 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthToken } from "../../redux/authSlice";
 
-
-function  SignIn(props) {
+function SignIn(props) {
   // const dispatch =useDispatch
+  const form = useForm();
+  const { register, handleSubmit, formState } = form;
+  const { errors } = formState;
   const navigate = useNavigate();
-  const [error, setError] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const handleClick = async (e) => {
-    e.preventDefault();
-    if (email === "" || password === "") {
-      setError("Please enter email and password !!");
-    } else {
-      await axios
-        .post("http://localhost:4000/api/user/login", { email, password })
-        .then(() => {
-          toast.success("login successfull");
-          setTimeout(()=>{
-            props.setSignIn(false);
-          },4000)
-        
-          setError("");
-          setEmail("");
-          setPassword("");
-        })
-        .catch((e) => {
-          console.log(e);
-          setError("Invalid credentials");
-        });
-    }
+  const dispatch = useDispatch();
+  const { authToken } = useSelector((data) => data.auth);
+  console.log(authToken);
+
+  const handleClick = (data) => {
+    console.log(data);
+    axios
+      .post("http://localhost:4000/api/user/login", { data })
+      .then((data) => {
+        dispatch(setAuthToken(data.data.token));
+        toast.success("login successfull");
+
+        props.setSignIn(false);
+
+        navigate("/");
+      })
+      .catch((e) => {
+        console.log(e);
+        toast("invalid email or Password");
+      });
   };
   return (
     <div className="w-3/4 flex flex-col justify-center items-center">
       <form
         className="w-full flex flex-col justify-center items-center"
-      
+        onSubmit={handleSubmit(handleClick)}
       >
         <input
-          value={email}
           type="email"
           placeholder="E-mail"
           className="w-full border rounded-md h-12 pl-2 outline-1"
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setError("");
-          }}
+          {...register("email", {
+            required: { value: true, message: "email is required" },
+            pattern: {
+              value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+              message: "Invalid email format",
+            },
+          })}
         />
+        <p className="pt-1 font-semibold text-red-700 text-sm">
+          {errors.email?.message}
+        </p>
         <br />
         <br />
 
         <input
-          value={password}
           type="password"
           placeholder="password"
           className="w-full border rounded-md h-12 pl-2 outline-1"
-          onChange={(e) => {
-            setPassword(e.target.value);
-            setError("");
-          }}
+          {...register("password", {
+            required: { value: true, message: "Password is required" },
+            minLength: { value: 5, message: "Minimum 5 charecters" },
+          })}
         />
+        <p className="pt-1 font-semibold text-red-700 text-sm">
+          {errors.password?.message}
+        </p>
         <button
           className=" w-[150px] h-8 border mt-5 rounded-md bg-rose-600 font-bold text-sm text-white"
           type="submit"
-          onClick={(e) => handleClick(e)}
         >
           {" "}
           Sign In{" "}
         </button>
         {/* <input type="submit" value="dgdf" /> */}
-        
-        
       </form>
-     
-      <p className="mt-3 font-bold text-red-800">{error}</p>
-     
     </div>
   );
 }

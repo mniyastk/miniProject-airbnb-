@@ -5,20 +5,24 @@ import globe from "../assets/Vector 1.svg";
 import tLines from "../assets/Vector (1).svg";
 import { SignUp } from "../pages/login&signup/SignUp";
 import SignIn from "../pages/login&signup/signIn";
-import { Link } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setState } from "../redux/slices";
+import LoginQuickAccess from "./loginQuickAccess";
+import SignInQuickNav from "./signInQuickNav";
 export const Navbar = () => {
   const { property } = useSelector((data) => data.data);
-  const {state} = useSelector((data)=>data.data)
-  const dispatch =useDispatch()
+  const { state } = useSelector((data) => data.data);
+  const { authToken } = useSelector((data) => data.auth);
+  const dispatch = useDispatch();
   console.log(property);
-  console.log(state)
+  console.log(state);
   const [toggle, setToggle] = useState(false);
   const [signUp, setSignUp] = useState(false);
   const [signIn, setSignIn] = useState(false);
+  const navigate = useNavigate();
   // const [isBack,setIsBack]=useState(false)
   const handleSignUp = () => {
     // setToggle(!toggle);
@@ -59,13 +63,23 @@ export const Navbar = () => {
         </div>
       </div>
       <div className="flex-1  flex items-center justify-end ">
-        <Link to={"/host"}>
-          <button className="w-[150px] h-[35px] font-semibold hover:">
-            Switch to hosting
-          </button>
-        </Link>
+        <button
+          className="w-[150px] h-[35px] font-semibold hover:"
+          onClick={() => {
+            authToken
+              ? navigate("/host")
+              : toast("Please Login first") && setSignIn(!signIn);
+          }}
+        >
+          Switch to hosting
+        </button>
+
         <button className="w-[30px] h-[30px] rounded-full">
-          <img src={globe} alt="language"  onClick={()=>dispatch(setState(true))}/>
+          <img
+            src={globe}
+            alt="language"
+            onClick={() => dispatch(setState(true))}
+          />
         </button>
         <div
           className=" w-[85px] h-[40px]  rounded-[45px] mr-5 border-solid border-[.5px] border-slate-400 flex items-center justify-around relative hover:shadow-2xl cursor-pointer"
@@ -79,43 +93,11 @@ export const Navbar = () => {
             </div>
           </div>
         </div>
-        <div
-          className={`${
-            !toggle
-              ? `hidden`
-              : `bg-white w-[200px] h-[200px] rounded-md right-5 top-16 absolute overflow-hidden`
-          }`}
-          onMouseLeave={() => setToggle(!toggle)}
-        >
-          <div className="flex w-full h-1/2 flex-col border-b">
-            <div
-              className="text-sm h-1/2  hover:bg-slate-200 w-full hover:cursor-pointer font-bold pl-3 flex items-center"
-              onClick={() => setSignIn(!signIn)}
-            >
-              <span> Login</span>
-            </div>
-            <div
-              className="text-sm h-1/2  hover:bg-slate-200 w-full hover:cursor-pointer font-bold pl-3 flex items-center"
-              onClick={handleSignUp}
-            >
-              <span> Sign Up</span>
-            </div>
-          </div>
-          <div className="flex w-full h-1/2 flex-col ">
-            <div
-              className="text-sm h-1/2  hover:bg-slate-200 w-full hover:cursor-pointer font-bold pl-3 flex items-center"
-              onClick={() => setToggle(!toggle)}
-            >
-              <span> Airbnb your home</span>
-            </div>
-            <div
-              className="text-sm h-1/2  hover:bg-slate-200 w-full hover:cursor-pointer font-bold pl-3 flex items-center"
-              onClick={() => setToggle(!toggle)}
-            >
-              <span > Help Center </span>
-            </div>
-          </div>
-        </div>
+        {!authToken?
+          <LoginQuickAccess {...{toggle,setToggle,signIn,setSignIn,signUp,setSignUp,handleSignUp,handleBackground}}
+          />:<SignInQuickNav {...{toggle,setToggle}}/>
+        }
+
         <div
           className={`${
             signUp || signIn
@@ -131,7 +113,7 @@ export const Navbar = () => {
               : "hidden"
           }`}
         >
-          <SignUp state={setSignUp} />
+          <SignUp setSignUp={setSignUp} />
         </div>
         <div
           className={`${
