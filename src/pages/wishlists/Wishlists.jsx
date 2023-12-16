@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Navbar } from "../../components/navbar";
 import { Footer } from "../../components/footer";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { StayCard } from "../../components/stayCard";
+import { myContext } from "../../App";
 
 function Wishlists() {
   const {authToken}= useSelector(data=>data.auth)
+  const {favouritedStays,setFavouritedStays} = useContext(myContext)
+  console.log(favouritedStays)
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
@@ -15,18 +18,19 @@ function Wishlists() {
         "Content-Type":"application/json"
 
       }})
-      .then((data) => setData(data.data.data))
+      .then((data) => setFavouritedStays(data.data.data))
       .catch((e) => console.log(e));
   }, []);
+  
   return (
     <div>
       <Navbar />
-      <div className="w-full  px-20 overflow-hidden">
+      <div className="w-full  px-12 overflow-hidden">
         <h1 className="font-extrabold text-5xl  pt-20">Wishlists</h1>
-        <div className="h-full bg-slate-100 flex flex-wrap justify-around overflow-scroll">
-          {data.map((item)=>{
+        <div className="h-full  grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 justify-start overflow-scroll gap-x-3 pt-20 pl-2">
+          {favouritedStays.map((data,index)=>{
             return(
-              <StayCard data={item}/>
+              <StayCard {...{data,favouritedStays}} key={index}/>
             )
           })}
         </div>

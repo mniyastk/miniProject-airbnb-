@@ -1,8 +1,16 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { clearAuthToken } from '../redux/authSlice'
 
 const SignInQuickNav = ({toggle,setToggle}) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const handleLogout=()=>{
+      dispatch(clearAuthToken())
+      navigate('/')
+    }
+
   return (
     <div
     className={`${
@@ -18,7 +26,7 @@ const SignInQuickNav = ({toggle,setToggle}) => {
     <div className='w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center'>Manage listings</div>
     <div className='w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center'>Account</div>
     <div className='w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center'>Help Center</div>
-    <div className='w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center'>Log out</div>
+    <div className='w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center' onClick={handleLogout}>Log out</div>
     </div>
   )
 }

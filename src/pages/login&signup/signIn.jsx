@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthToken } from "../../redux/authSlice";
+import { myContext } from "../../App";
 
 function SignIn(props) {
   // const dispatch =useDispatch
@@ -15,7 +16,9 @@ function SignIn(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { authToken } = useSelector((data) => data.auth);
-  console.log(authToken);
+  // console.log(authToken);
+  // const [data,setData]= useState([])
+  const { setFavouritedStays } = useContext(myContext);
 
   const handleClick = (data) => {
     console.log(data);
@@ -28,12 +31,23 @@ function SignIn(props) {
         props.setSignIn(false);
 
         navigate("/");
+
+        axios
+          .get("http://localhost:4000/api/user/stays/wishlists", {
+            headers: {
+              Authorization: `Bearer ${data.data.token}`,
+              "Content-Type": "application/json",
+            },
+          })
+          .then((data) => setFavouritedStays(data.data.data))
+          .catch((e) => console.log(e));
       })
       .catch((e) => {
         console.log(e);
         toast("invalid email or Password");
       });
   };
+
   return (
     <div className="w-3/4 flex flex-col justify-center items-center">
       <form

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import logo from "../assets/pngegg 1.png";
 import search from "../assets/49-Search.svg";
 import globe from "../assets/Vector 1.svg";
@@ -12,16 +12,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { setState } from "../redux/slices";
 import LoginQuickAccess from "./loginQuickAccess";
 import SignInQuickNav from "./signInQuickNav";
+import { myContext } from "../App";
 export const Navbar = () => {
-  const { property } = useSelector((data) => data.data);
-  const { state } = useSelector((data) => data.data);
+  // const { property } = useSelector((data) => data.data);
+  // const { state } = useSelector((data) => data.data);
   const { authToken } = useSelector((data) => data.auth);
   const dispatch = useDispatch();
-  console.log(property);
-  console.log(state);
+const {signUp, setSignUp,signIn, setSignIn}= useContext(myContext)
+ 
   const [toggle, setToggle] = useState(false);
-  const [signUp, setSignUp] = useState(false);
-  const [signIn, setSignIn] = useState(false);
   const navigate = useNavigate();
   // const [isBack,setIsBack]=useState(false)
   const handleSignUp = () => {
@@ -101,7 +100,7 @@ export const Navbar = () => {
         <div
           className={`${
             signUp || signIn
-              ? "absolute top-0 bottom-0 right-0 left-0 m-auto bg-slate-600 opacity-40 z-10"
+              ? "absolute top-0 bottom-0 right-0 left-0 m-auto bg-slate-600 opacity-40 z-20"
               : "hidden"
           }`}
           onClick={handleBackground}

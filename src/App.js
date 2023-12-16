@@ -20,11 +20,23 @@ import Price from "./pages/host/addListing/StepThree/Price";
 import Test from "./components/test";
 import TestTwo from "./components/test2";
 import Wishlists from "./pages/wishlists/Wishlists";
+import { createContext, useState } from "react";
+import Payment from "./pages/payment/payement";
+
+export const myContext = createContext()
+
 
 function App() {
+  const [favouritedStays,setFavouritedStays]= useState([])
+  const [signUp, setSignUp] = useState(false);
+  const [signIn, setSignIn] = useState(false);
+
 
   return (
    <>
+   <myContext.Provider value={{favouritedStays,setFavouritedStays,signUp, setSignUp,signIn, setSignIn}}>
+
+   
    <Routes>
     <Route path="/" element={<Home/>}/>
     <Route path="/:id" element={<StayDetail/>}/>
@@ -32,6 +44,7 @@ function App() {
     <Route path="/test" element={<Test/>}/>
     <Route path="/test2" element={<TestTwo/>}/>
     <Route path="/wishlists" element={<Wishlists/>}/>
+    <Route path="/payments" element={<Payment/>}/>
     <Route path="/addListings" element={<AddListingLayout/>}>
       <Route index element={<StepOne/>}/>
       <Route path="stepOne" element={<StepOne/>}/>
@@ -51,7 +64,7 @@ function App() {
 
     </Route>
    </Routes>
-  
+   </myContext.Provider>
    </>
   );
 }

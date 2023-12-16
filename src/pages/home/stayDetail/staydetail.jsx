@@ -4,31 +4,50 @@ import { Footer } from "../../../components/footer";
 import star from "../../../assets/star.svg";
 import share from "../../../assets/share.svg";
 import heart from "../../../assets/heart.svg";
-import img1 from "../../../assets/pro image 1.webp";
-import img2 from "../../../assets/pro image 2.webp";
-import img3 from "../../../assets/pro image 3.webp";
-import img4 from "../../../assets/pro image 4.webp";
-import img5 from "../../../assets/pro image 5.webp";
 import user from "../../../assets/user.jpg";
 import des1 from "../../../assets/des1.svg";
 import des2 from "../../../assets/des2.svg";
 import des3 from "../../../assets/des3.svg";
 import security from "../../../assets/security.svg";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 export const StayDetail = () => {
   const [stay, setStay] = useState({});
-  const [data,setData]= useState()
+  const [data, setData] = useState();
   const { id } = useParams();
-  useEffect( () => {
-     axios
+  useEffect(() => {
+    axios
       .get(`http://localhost:4000/api/user/${id}`)
       .then((data) => setData(data.data.data))
       .catch((e) => console.log(e));
-    
-   
   }, [id]);
-  console.log(data)
+  console.log(data);
+
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  const defaultDate = date.toISOString().slice(0, 10);
+
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + 5);
+  const defaultBookDate = targetDate.toISOString().slice(0, 10);
+
+  const [currentData, setCurrentDate] = useState(date);
+  const [bookDate, setBookDate] = useState(targetDate);
+  const [guestNumber, setGuestNumber] = useState(1);
+  console.log(guestNumber);
+  console.log(currentData);
+  const Total =
+    Math.round(
+      (new Date(bookDate)?.getTime() - new Date(currentData)?.getTime()) /
+        (1000 * 60 * 60 * 24)
+    ) *
+    guestNumber *
+    data?.price;
+
+    // const handleReserve=()=>{
+    //   axios.post("")
+    // }
+
   return (
     <div>
       <Navbar />
@@ -43,7 +62,10 @@ export const StayDetail = () => {
           <div className="flex ">
             {" "}
             <img src={star} alt="rating" className="h-[20px] w-[20px]" />{" "}
-            <p>4.83 ·121 reviews·{data?.address?.District_localty}, {data?.country}</p>{" "}
+            <p>
+              4.83 ·121 reviews·{data?.address?.District_localty},{" "}
+              {data?.country}
+            </p>{" "}
           </div>
           <div className="flex w-[150px] justify-around">
             {" "}
@@ -53,21 +75,40 @@ export const StayDetail = () => {
         </div>
         <div className="flex  w-[100%] h-[300px] rounded-[25px]">
           <div className="w-[50%]  rounded-l-lg overflow-hidden">
-            
-            <img src={data?.images[0]?.url} alt="img1" className="w-[100%] h-[100%]" />
+            <img
+              src={data?.images[0]?.url}
+              alt="img1"
+              className="w-[100%] h-[100%]"
+            />
           </div>
           <div className="flex flex-wrap w-[50%] h-[100%] pl-4 justify-between gap-3 ">
             <div className="w-[49%] h-[48%] overflow-hidden">
-              <img src={data?.images[1]?.url} alt="img2" className="w-[100%] h-[100%]" />
+              <img
+                src={data?.images[1]?.url}
+                alt="img2"
+                className="w-[100%] h-[100%]"
+              />
             </div>
             <div className="w-[48%] h-[48%]  rounded-tr-lg overflow-hidden">
-              <img src={data?.images[2]?.url} alt="img3" className="w-[100%] h-[100%]" />
+              <img
+                src={data?.images[2]?.url}
+                alt="img3"
+                className="w-[100%] h-[100%]"
+              />
             </div>
             <div className="w-[49%] h-[48%]  overflow-hidden">
-              <img src={data?.images[3]?.url} alt="img4" className="w-[100%] h-[100%]" />
+              <img
+                src={data?.images[3]?.url}
+                alt="img4"
+                className="w-[100%] h-[100%]"
+              />
             </div>
             <div className="w-[48%] h-[48%]  rounded-br-lg overflow-hidden">
-              <img src={data?.images[4]?.url} alt="img5" className="w-[100%] h-[100%]" />
+              <img
+                src={data?.images[4]?.url}
+                alt="img5"
+                className="w-[100%] h-[100%]"
+              />
             </div>
           </div>
         </div>
@@ -77,9 +118,12 @@ export const StayDetail = () => {
               {" "}
               <div>
                 <p className="font-bold text-2xl">
-                 {data?.stayType } hosted by Shubhangi
+                  {data?.stayType} hosted by Shubhangi
                 </p>
-                <p>{data?.maxGuests} guests {data?.bedRooms}  bedrooms {data?.beds} beds {data?.bathrooms} bathroom</p>
+                <p>
+                  {data?.maxGuests} guests {data?.bedRooms} bedrooms{" "}
+                  {data?.beds} beds {data?.bathrooms} bathroom
+                </p>
               </div>
               <div className="rounded-[100%] w-10 h-10 overflow-hidden border">
                 {" "}
@@ -120,9 +164,7 @@ export const StayDetail = () => {
               </div>
             </div>
             <div className="h-[250px] w-[75%] border-b">
-              <p className="py-8 ">
-               {data?.description}
-              </p>
+              <p className="py-8 ">{data?.description}</p>
             </div>
             <div className="h-[380px] w-[75%] border-b mt-2">
               <p className="font-bold text-xl">What this place offers</p>
@@ -186,34 +228,51 @@ export const StayDetail = () => {
                     name=""
                     id=""
                     className="w-full h-full border-r "
+                    defaultValue={defaultDate}
+                    onChange={(e) => setCurrentDate(e.target.value)}
                   />
                 </div>
                 <div className=" w-1/2 h-full ">
-                  <input type="date" name="" id="" className="w-full h-full" />
+                  <input
+                    type="date"
+                    name=""
+                    id=""
+                    className="w-full h-full"
+                    onChange={(e) => setBookDate(e.target.value)}
+                    defaultValue={defaultBookDate}
+                  />
                 </div>
               </div>
               <div className="h-1/2 border-t">
                 {" "}
-                <select name="guests" className="w-full h-full outline-none">
-                  <option value="">1 guest</option>
-                  <option value="">2 guests</option>
-                  <option value="">3 guests</option>
-                  <option value="">4 guests</option>
-                  <option value="">5 guests</option>
+                <select
+                  name="guests"
+                  className="w-full h-full outline-none"
+                  onChange={(e) => setGuestNumber(e.target.value)}
+                >
+                  <option value={1}>1 guest</option>
+                  <option value={2}>2 guests</option>
+                  <option value={3}>3 guests</option>
+                  <option value={4}>4 guests</option>
+                  <option value={5}>5 guests</option>
                 </select>{" "}
               </div>
             </div>
-            <button className="w-5/6 h-[50px] bg-[#FF385C] mt-3 rounded-md">
-              <span className="font-bold">Reserve</span>
+            
+            <button
+              className="w-5/6 h-[50px] bg-[#FF385C] mt-3 rounded-md"
+              // onClick={handleReserve}
+            >
+             <Link to={'/payments'} ><span className="font-bold">Reserve</span></Link>
             </button>
             <span className="mt-3">You won't be charged yet </span>
             <div className="flex justify-between w-5/6 mt-16">
               <span>Airbnb service fee</span>
-              <span className="font-bold">₹6,374</span>
+              <span className="font-bold">₹ {(Total * 14) / 100}</span>
             </div>
             <div className="flex justify-between w-5/6 mt-5">
-              <span>Total</span>
-              <span className="font-bold">₹51,526</span>
+    
+              <span className="font-bold">₹ {Total + (Total * 14) / 100}</span>
             </div>
           </div>
         </div>
