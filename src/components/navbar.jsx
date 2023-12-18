@@ -18,8 +18,8 @@ export const Navbar = () => {
   // const { state } = useSelector((data) => data.data);
   const { authToken } = useSelector((data) => data.auth);
   const dispatch = useDispatch();
-const {signUp, setSignUp,signIn, setSignIn}= useContext(myContext)
- 
+  const { signUp, setSignUp, signIn, setSignIn } = useContext(myContext);
+
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
   // const [isBack,setIsBack]=useState(false)
@@ -40,7 +40,7 @@ const {signUp, setSignUp,signIn, setSignIn}= useContext(myContext)
     document.body.style.overflow = "";
   }
   return (
-    <div className="w-full h-[80px] flex border-b border-b-slate-300">
+    <div className="w-full h-[80px] flex border-b border-b-slate-300 sticky top-0 z-30 bg-white">
       <div className="flex-1 flex items-center ">
         <Link to={"/"}>
           <img
@@ -92,36 +92,52 @@ const {signUp, setSignUp,signIn, setSignIn}= useContext(myContext)
             </div>
           </div>
         </div>
-        {!authToken?
-          <LoginQuickAccess {...{toggle,setToggle,signIn,setSignIn,signUp,setSignUp,handleSignUp,handleBackground}}
-          />:<SignInQuickNav {...{toggle,setToggle}}/>
-        }
+        <div>
+          {" "}
+          {!authToken ? (
+            <LoginQuickAccess
+              {...{
+                toggle,
+                setToggle,
+                signIn,
+                setSignIn,
+                signUp,
+                setSignUp,
+                handleSignUp,
+                handleBackground,
+              }}
+            />
+          ) : (
+            <SignInQuickNav {...{ toggle, setToggle }} />
+          )}
+        </div>
 
         <div
           className={`${
             signUp || signIn
-              ? "absolute top-0 bottom-0 right-0 left-0 m-auto bg-slate-600 opacity-40 z-20"
+              ? "absolute top-0 w-screen h-screen  left-0 m-auto bg-slate-600 opacity-40 z-20"
               : "hidden"
           }`}
           onClick={handleBackground}
-        ></div>
-        <div
-          className={`${
-            signUp
-              ? "absolute top-0 bottom-0 left-0 right-0 m-auto w-1/3 h-3/4 bg-white z-20 rounded-md"
-              : "hidden"
-          }`}
         >
-          <SignUp setSignUp={setSignUp} />
-        </div>
-        <div
-          className={`${
-            signIn
-              ? "absolute top-0 bottom-0 left-0 right-0 m-auto w-1/3 h-3/4 bg-white z-20 rounded-md flex justify-center items-center"
-              : "hidden"
-          }`}
-        >
-          <SignIn signIn={SignIn} setSignIn={setSignIn} />
+          <div
+            className={`${
+              signUp
+                ? "absolute top-0 bottom-0 left-0 right-0 m-auto w-1/3 h-3/4 bg-white z-[200] rounded-md "
+                : "hidden"
+            }`}
+          >
+            <SignUp setSignUp={setSignUp} />
+          </div>
+          <div
+            className={`${
+              signIn
+                ? "absolute top-0 bottom-0 left-0 right-0 m-auto w-1/3 h-3/4 bg-white z-50 rounded-md flex justify-center items-center"
+                : "hidden"
+            }`}
+          >
+            <SignIn signIn={SignIn} setSignIn={setSignIn} />
+          </div>
         </div>
       </div>
       <div className="signIN">

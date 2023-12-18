@@ -44,10 +44,14 @@ export const StayDetail = () => {
     guestNumber *
     data?.price;
 
-    // const handleReserve=()=>{
-    //   axios.post("")
-    // }
-
+  // const handleReserve=()=>{
+  //   axios.post("")
+  // }
+  const sentData = {
+    checkInDate: currentData,
+    checkOutDate: bookDate,
+    maxGuests: guestNumber,
+  };
   return (
     <div>
       <Navbar />
@@ -258,12 +262,21 @@ export const StayDetail = () => {
                 </select>{" "}
               </div>
             </div>
-            
+
             <button
               className="w-5/6 h-[50px] bg-[#FF385C] mt-3 rounded-md"
               // onClick={handleReserve}
             >
-             <Link to={'/payments'} ><span className="font-bold">Reserve</span></Link>
+              <Link
+                to={{
+                  pathname: `/payments`,
+                  search: `?data=${encodeURIComponent(
+                    JSON.stringify(sentData)
+                  )}`,
+                }}
+              >
+                <span className="font-bold w-full h-full">Reserve</span>
+              </Link>
             </button>
             <span className="mt-3">You won't be charged yet </span>
             <div className="flex justify-between w-5/6 mt-16">
@@ -271,7 +284,6 @@ export const StayDetail = () => {
               <span className="font-bold">₹ {(Total * 14) / 100}</span>
             </div>
             <div className="flex justify-between w-5/6 mt-5">
-    
               <span className="font-bold">₹ {Total + (Total * 14) / 100}</span>
             </div>
           </div>

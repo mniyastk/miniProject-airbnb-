@@ -49,7 +49,7 @@ function SignIn(props) {
   };
 
   return (
-    <div className="w-3/4 flex flex-col justify-center items-center">
+    <div className="w-3/4 flex flex-col justify-center items-center bg-white z-[100]">
       <form
         className="w-full flex flex-col justify-center items-center"
         onSubmit={handleSubmit(handleClick)}

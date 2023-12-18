@@ -33,7 +33,7 @@ export const SignUp = (props) => {
   };
   const password = watch("password");
   return (
-    <div className="w-full flex justify-center items-center h-full">
+    <div className="w-full flex justify-center items-center h-full bg-white z-[999]">
       <form
         className="flex flex-col w-3/5 justify-center h-full py-3"
         onSubmit={handleSubmit(onSubmit)}

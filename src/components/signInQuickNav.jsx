@@ -16,7 +16,7 @@ const SignInQuickNav = ({toggle,setToggle}) => {
     className={`${
       !toggle
         ? `hidden`
-        : `bg-white w-[200px] h-[300px] rounded-md right-5 top-16 absolute overflow-hidden z-10`
+        : `bg-white w-[200px] h-[300px] rounded-md right-5 top-16 absolute overflow-hidden `
     }`}
     onMouseLeave={() => setToggle(!toggle)}
    >

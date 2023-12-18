@@ -44,9 +44,10 @@ export const Home = () => {
     }
   };
   return (
-    <div>
+    <div className="relative">
+      
       <Navbar />
-      <div className="h-[80px] flex">
+      <div className="h-[80px] flex sticky top-[80px] z-20 bg-white">
         <div className="h-full w-[70%] pl-10 overflow-hidden flex gap-10 justify-between relative">
           <div
             className="absolute right-2 top-6 border rounded-full hover:cursor-pointer bg-white w-[35px] h-[35px] p-[10px] backdrop-blur-2xl z-10"
@@ -98,7 +99,7 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      <div className="h-auto flex flex-wrap justify-between px-10 ">
+      <div className="h-auto flex flex-wrap justify-between px-10  overflow-scroll">
         {stays.map((data, index) => {
           return (
             <NavLink to={`/${data._id}`}>
