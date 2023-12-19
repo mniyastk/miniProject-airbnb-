@@ -115,29 +115,28 @@ export const Navbar = () => {
         <div
           className={`${
             signUp || signIn
-              ? "absolute top-0 w-screen h-screen  left-0 m-auto bg-slate-600 opacity-40 z-20"
+              ? "fixed top-0 right-0 bottom-0  left-0 m-auto bg-slate-600 opacity-40 z-20"
               : "hidden"
           }`}
           onClick={handleBackground}
+        ></div>
+        <div
+          className={`${
+            signUp
+              ? "fixed top-0 bottom-0 left-0 right-0 m-auto w-1/3 h-3/4 bg-white z-[200] rounded-md "
+              : "hidden"
+          }`}
         >
-          <div
-            className={`${
-              signUp
-                ? "absolute top-0 bottom-0 left-0 right-0 m-auto w-1/3 h-3/4 bg-white z-[200] rounded-md "
-                : "hidden"
-            }`}
-          >
-            <SignUp setSignUp={setSignUp} />
-          </div>
-          <div
-            className={`${
-              signIn
-                ? "absolute top-0 bottom-0 left-0 right-0 m-auto w-1/3 h-3/4 bg-white z-50 rounded-md flex justify-center items-center"
-                : "hidden"
-            }`}
-          >
-            <SignIn signIn={SignIn} setSignIn={setSignIn} />
-          </div>
+          <SignUp setSignUp={setSignUp} />
+        </div>
+        <div
+          className={`${
+            signIn
+              ? "fixed top-0 bottom-0 left-0 right-0 m-auto w-1/3 h-3/4 bg-white z-50 rounded-md flex justify-center items-center"
+              : "hidden"
+          }`}
+        >
+          <SignIn signIn={SignIn} setSignIn={setSignIn} />
         </div>
       </div>
       <div className="signIN">

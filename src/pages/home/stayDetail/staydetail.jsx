@@ -12,7 +12,7 @@ import security from "../../../assets/security.svg";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 export const StayDetail = () => {
-  const [stay, setStay] = useState({});
+  // const [stay, setStay] = useState({});
   const [data, setData] = useState();
   const { id } = useParams();
   useEffect(() => {
@@ -51,6 +51,7 @@ export const StayDetail = () => {
     checkInDate: currentData,
     checkOutDate: bookDate,
     maxGuests: guestNumber,
+    stay:data
   };
   return (
     <div>
@@ -284,6 +285,7 @@ export const StayDetail = () => {
               <span className="font-bold">₹ {(Total * 14) / 100}</span>
             </div>
             <div className="flex justify-between w-5/6 mt-5">
+              <span>Total</span>
               <span className="font-bold">₹ {Total + (Total * 14) / 100}</span>
             </div>
           </div>
