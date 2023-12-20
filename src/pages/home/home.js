@@ -13,6 +13,7 @@ import axios from "axios";
 import { myContext } from "../../App";
 
 export const Home = () => {
+  const search =true
   // console.log(navitems);
   // const { listings } = useSelector((data) => data.data);
   const { favouritedStays } = useContext(myContext);
@@ -46,7 +47,7 @@ export const Home = () => {
   return (
     <div className="relative">
       
-      <Navbar />
+      <Navbar {...{search}}/>
       <div className="h-[80px] flex sticky top-[80px] z-20 bg-white">
         <div className="h-full w-[70%] pl-10 overflow-hidden flex gap-10 justify-between relative">
           <div
@@ -102,7 +103,7 @@ export const Home = () => {
       <div className="h-auto flex flex-wrap justify-between px-10  overflow-scroll">
         {stays.map((data, index) => {
           return (
-            <NavLink to={`/${data._id}`}>
+            <NavLink to={`/user/stay/${data._id}`}>
               <StayCard {...{ data, favouritedStays }} key={index} />
             </NavLink>
           );

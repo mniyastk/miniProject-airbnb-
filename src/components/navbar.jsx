@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import logo from "../assets/pngegg 1.png";
-import search from "../assets/49-Search.svg";
+import searchLogo from "../assets/49-Search.svg";
 import globe from "../assets/Vector 1.svg";
 import tLines from "../assets/Vector (1).svg";
 import { SignUp } from "../pages/login&signup/SignUp";
@@ -13,7 +13,7 @@ import { setState } from "../redux/slices";
 import LoginQuickAccess from "./loginQuickAccess";
 import SignInQuickNav from "./signInQuickNav";
 import { myContext } from "../App";
-export const Navbar = () => {
+export const Navbar = ({search}) => {
   // const { property } = useSelector((data) => data.data);
   // const { state } = useSelector((data) => data.data);
   const { authToken } = useSelector((data) => data.auth);
@@ -51,13 +51,13 @@ export const Navbar = () => {
         </Link>
       </div>
       <div className="flex-1 flex justify-center items-center ">
-        <div className="w-[360px] h-[50px] rounded-[25px] border-solid border-black border-[.5px] border-opacity-20 flex items-center justify-around shadow-lg">
+        <div className={`"w-[360px] h-[50px] rounded-[25px] border-solid border-black border-[.5px] border-opacity-20 flex items-center justify-around shadow-lg " ${!search?"hidden":""}`}>
           <input
             className="h-full ml-6 w-3/4 border-0 outline-none"
             placeholder="Anywhere | Any week | Add guests"
           />
           <div className="w-[32px] h-[32px] rounded-full flex items-center justify-center bg-[#FF385C]">
-            <img src={search} alt="search" />
+            <img src={searchLogo} alt="search" />
           </div>
         </div>
       </div>
@@ -70,14 +70,14 @@ export const Navbar = () => {
               : toast("Please Login first") && setSignIn(!signIn);
           }}
         >
-          Switch to hosting
+         <span className={`${!search?"hidden":""}`}> Switch to hosting</span> <span className={`${search?"hidden":""}`}> airbnb your home</span>
         </button>
 
         <button className="w-[30px] h-[30px] rounded-full">
           <img
             src={globe}
             alt="language"
-            onClick={() => dispatch(setState(true))}
+            // onClick={() => dispatch(setState(true))}
           />
         </button>
         <div

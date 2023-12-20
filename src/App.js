@@ -22,50 +22,63 @@ import TestTwo from "./components/test2";
 import Wishlists from "./pages/wishlists/Wishlists";
 import { createContext, useState } from "react";
 import Payment from "./pages/payment/payement";
+import Trips from "./pages/user/Trips/Trips";
+import AdminHome from "./pages/Admin/Admin Home/AdminHome";
+import Users from "./pages/Admin/users/Users";
+import NotFound from "./components/NotFound";
 
-export const myContext = createContext()
-
+export const myContext = createContext();
 
 function App() {
-  const [favouritedStays,setFavouritedStays]= useState([])
+  const [favouritedStays, setFavouritedStays] = useState([]);
   const [signUp, setSignUp] = useState(false);
   const [signIn, setSignIn] = useState(false);
 
-
   return (
-   <>
-   <myContext.Provider value={{favouritedStays,setFavouritedStays,signUp, setSignUp,signIn, setSignIn}}>
-
-   
-   <Routes>
-    <Route path="/" element={<Home/>}/>
-    <Route path="/:id" element={<StayDetail/>}/>
-    <Route path="/host" element={<HostHome/>}/>
-    <Route path="/test" element={<Test/>}/>
-    <Route path="/test2" element={<TestTwo/>}/>
-    <Route path="/wishlists" element={<Wishlists/>}/>
-    <Route path="/payments" element={<Payment/>}/>
-    <Route path="/addListings" element={<AddListingLayout/>}>
-      <Route index element={<StepOne/>}/>
-      <Route path="stepOne" element={<StepOne/>}/>
-      <Route path="step2" element ={<Step2/>}/>
-      <Route path="StepThree" element ={<StepThree/>}/>
-      <Route path="Location" element ={<Location/>}/>
-      <Route path="Address" element ={<Address/>}/>
-      <Route path="HouseDetails" element ={<HouseDetails/>}/>
-      <Route path="StepTwo" element ={<StepTwo/>}/>
-      <Route path="One" element ={ <One/>}/>
-      <Route path="Two" element ={<Two/>}/>
-      <Route path="Three" element ={<Three/>}/>
-      <Route path="Four" element ={<Four/>}/>
-      <Route path="OneThree" element ={ <OneThree/>}/>
-      <Route path="Price" element ={ <Price />}/>
-   
-
-    </Route>
-   </Routes>
-   </myContext.Provider>
-   </>
+    <>
+      <myContext.Provider
+        value={{
+          favouritedStays,
+          setFavouritedStays,
+          signUp,
+          setSignUp,
+          signIn,
+          setSignIn,
+        }}
+      >
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/admin" element={<AdminHome />}>
+            <Route index element={<Users />} />{" "}
+            <Route path="users" element={<Users />} />
+          </Route>
+          <Route path="/user/stay/:id" element={<StayDetail />} />
+          <Route path="/host" element={<HostHome />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/test2" element={<TestTwo />} />
+          <Route path="/wishlists" element={<Wishlists />} />
+          <Route path="/payments" element={<Payment />} />
+          <Route path="/user/trips" element={<Trips />} />
+          <Route path="/addListings" element={<AddListingLayout />}>
+            <Route index element={<StepOne />} />
+            <Route path="stepOne" element={<StepOne />} />
+            <Route path="step2" element={<Step2 />} />
+            <Route path="StepThree" element={<StepThree />} />
+            <Route path="Location" element={<Location />} />
+            <Route path="Address" element={<Address />} />
+            <Route path="HouseDetails" element={<HouseDetails />} />
+            <Route path="StepTwo" element={<StepTwo />} />
+            <Route path="One" element={<One />} />
+            <Route path="Two" element={<Two />} />
+            <Route path="Three" element={<Three />} />
+            <Route path="Four" element={<Four />} />
+            <Route path="OneThree" element={<OneThree />} />
+            <Route path="Price" element={<Price />} />
+          </Route>
+          <Route path="*" element={<NotFound/>}/>
+        </Routes>
+      </myContext.Provider>
+    </>
   );
 }
 
