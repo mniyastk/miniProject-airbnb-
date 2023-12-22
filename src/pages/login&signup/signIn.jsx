@@ -47,16 +47,12 @@ function SignIn(props) {
         toast("invalid email or Password");
       });
   };
-  function navigator(url) {
-    window.location.href = url;
-  }
-  async function auth() {
-    const response = await fetch("http://127.0.0.1:3000/request", {
-      method: "post",
-    });
-    const data = await response.json();
-    console.log(data);
-    navigator(data.url);
+ 
+
+  function login(){
+    const googleAuth =()=>{
+      window.open("http://localhost:4000/api/user/googleAuth","_self")
+    }
   }
   return (
     <div className="w-3/4 flex flex-col justify-center items-center bg-white">
@@ -103,7 +99,7 @@ function SignIn(props) {
         </button>
         {/* <input type="submit" value="dgdf" /> */}
       </form>
-      <button className="gsi-material-button" onClick={() => auth()}>
+      <button className="gsi-material-button" onClick={() => login()}>
         <div className="gsi-material-button-state"></div>
         <div className="gsi-material-button-content-wrapper">
           <div className="gsi-material-button-icon">

@@ -14,13 +14,9 @@ import { myContext } from "../../App";
 
 export const Home = () => {
   const search =true
-  // console.log(navitems);
-  // const { listings } = useSelector((data) => data.data);
   const { favouritedStays } = useContext(myContext);
   const [stays, setStays] = useState([]);
-  // console.log(stays)
   console.log(favouritedStays);
-  // console.log(listings);
   useEffect(() => {
     axios
       .get("http://localhost:4000/api/user/stays")
@@ -46,7 +42,6 @@ export const Home = () => {
   };
   return (
     <div className="relative">
-      
       <Navbar {...{search}}/>
       <div className="h-[80px] flex sticky top-[80px] z-20 bg-white">
         <div className="h-full w-[70%] pl-10 overflow-hidden flex gap-10 justify-between relative">

@@ -4,7 +4,6 @@ import { StayDetail } from "./pages/home/stayDetail/staydetail";
 import { HostHome } from "./pages/host/hostingHome";
 import { AddListingLayout } from "./pages/host/addListing/addListingLayout";
 import StepOne from "./pages/host/addListing/stepOne";
-// import { useState } from "react";
 import { Step2 } from "./pages/host/addListing/step2";
 import StepThree from "./pages/host/addListing/stepThree";
 import Location from "./pages/host/addListing/location";
@@ -17,7 +16,6 @@ import Three from "./pages/host/addListing/stepTwo/Three";
 import Four from "./pages/host/addListing/stepTwo/Four";
 import OneThree from "./pages/host/addListing/StepThree/OneThree";
 import Price from "./pages/host/addListing/StepThree/Price";
-import Test from "./components/test";
 import TestTwo from "./components/test2";
 import Wishlists from "./pages/wishlists/Wishlists";
 import { createContext, useState } from "react";
@@ -26,6 +24,8 @@ import Trips from "./pages/user/Trips/Trips";
 import AdminHome from "./pages/Admin/Admin Home/AdminHome";
 import Users from "./pages/Admin/users/Users";
 import NotFound from "./components/NotFound";
+import TestLogin from "./testLogin";
+import Listings from "./pages/Admin/Listings/Listings";
 
 export const myContext = createContext();
 
@@ -51,10 +51,12 @@ function App() {
           <Route path="/admin" element={<AdminHome />}>
             <Route index element={<Users />} />{" "}
             <Route path="users" element={<Users />} />
+            <Route path="listings" element={<Listings />} />
+            
           </Route>
           <Route path="/user/stay/:id" element={<StayDetail />} />
           <Route path="/host" element={<HostHome />} />
-          <Route path="/test" element={<Test />} />
+          <Route path="/test" element={<TestLogin />} />
           <Route path="/test2" element={<TestTwo />} />
           <Route path="/wishlists" element={<Wishlists />} />
           <Route path="/payments" element={<Payment />} />
@@ -75,7 +77,7 @@ function App() {
             <Route path="OneThree" element={<OneThree />} />
             <Route path="Price" element={<Price />} />
           </Route>
-          <Route path="*" element={<NotFound/>}/>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </myContext.Provider>
     </>

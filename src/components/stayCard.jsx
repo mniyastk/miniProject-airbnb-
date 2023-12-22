@@ -6,7 +6,7 @@ import favourite from "../assets/favourite.svg";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { myContext } from "../App";
-export const StayCard = ({ data, favouritedStays }) => {
+export const StayCard = ({ data, favouritedStays,favourite }) => {
   const { authToken } = useSelector((data) => data.auth);
 const {signIn, setSignIn}= useContext(myContext)
 
@@ -95,7 +95,7 @@ const {signIn, setSignIn}= useContext(myContext)
         onMouseEnter={() => setShowArrow(true)}
         onMouseLeave={() => setShowArrow(false)}
       >
-        <div className="absolute top-3 right-3">
+        <div className={`"absolute top-3 right-3 " ${!favourite?"hidden":""}`}>
           <svg
             onClick={handleFavourite}
             xmlns="http://www.w3.org/2000/svg"
