@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addProperty } from "../../../redux/slices";
 
 const StepOne = () => {
+  const dispatch = useDispatch()
+  const {host_id} = useSelector(data=>data.auth)
+  console.log(host_id)
+  useEffect(()=>{
+    dispatch(addProperty({ property: "host_id", data: host_id}))
+  },[])
+
   return (
     <div className="flex h-full w-ful justify-center items-center">
       <div className=" w-3/4 flex ">

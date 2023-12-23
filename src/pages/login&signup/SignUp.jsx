@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -9,7 +9,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 export const SignUp = (props) => {
   const form = useForm();
   const { register, control, handleSubmit, formState, watch } = form;
-  const [googleAuth,seGoogleAuth] = useState([])
+  const [googleAuth, seGoogleAuth] = useState([]);
   const navigate = useNavigate();
   const { errors } = formState;
 
@@ -32,9 +32,14 @@ export const SignUp = (props) => {
       });
   };
   const password = watch("password");
+  // useEffect(
+  //   ()=>{
+
+  //   }
+  // ,[])
   const login = useGoogleLogin({
-    onSuccess: tokenResponse => console.log(tokenResponse),
-    onError:toast("Login failed")
+    onSuccess: (tokenResponse) => console.log(tokenResponse),
+    // onError:toast("Login failed")
   });
   return (
     <div className="w-full flex flex-col justify-center items-center h-full bg-white z-[999]">
@@ -143,8 +148,11 @@ export const SignUp = (props) => {
           Sign Up
         </button>
       </form>
-      <div className=" flex justify-center items-center mt-2">
-        <button className="gsi-material-button" onClick={login}>
+      <div
+        className=" flex justify-center items-center mt-2"
+        onClick={() => login()}
+      >
+        <button className="gsi-material-button">
           <div className="gsi-material-button-state"></div>
           <div className="gsi-material-button-content-wrapper">
             <div className="gsi-material-button-icon">

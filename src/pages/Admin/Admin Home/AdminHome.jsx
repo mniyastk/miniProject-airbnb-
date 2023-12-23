@@ -57,6 +57,7 @@ const AdminHome = () => {
             <h1 className="text-[#707FDD] font-semibold text-xs pl-2">
               Configuration
             </h1>
+            
           </div>
         </div>
       </div>

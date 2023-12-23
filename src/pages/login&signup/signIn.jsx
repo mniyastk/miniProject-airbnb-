@@ -25,7 +25,12 @@ function SignIn(props) {
     axios
       .post("http://localhost:4000/api/user/login", { data })
       .then((data) => {
-        dispatch(setAuthToken(data.data.token));
+        dispatch(
+          setAuthToken({
+            token: data.data.data.token,
+            user_id: data.data.data.user_id,
+          })
+        );
         toast.success("login successfull");
 
         props.setSignIn(false);
@@ -47,12 +52,11 @@ function SignIn(props) {
         toast("invalid email or Password");
       });
   };
- 
 
-  function login(){
-    const googleAuth =()=>{
-      window.open("http://localhost:4000/api/user/googleAuth","_self")
-    }
+  function login() {
+    const googleAuth = () => {
+      window.open("http://localhost:4000/api/user/googleAuth", "_self");
+    };
   }
   return (
     <div className="w-3/4 flex flex-col justify-center items-center bg-white">
