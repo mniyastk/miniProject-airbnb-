@@ -12,15 +12,19 @@ import security from "../../../assets/security.svg";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 export const StayDetail = () => {
+  const params = new URLSearchParams(location.search);
+  const info = JSON.parse(decodeURIComponent(params.get("data")));
   // const [stay, setStay] = useState({});
   const [data, setData] = useState();
   const { id } = useParams();
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/user/${id}`)
-      .then((data) => setData(data.data.data))
+      .get(`http://localhost:4000/api/${info.admin ? "admin" : "user"}/${id}`)
+      .then((data) => {
+        setData(data.data.data);
+      })
       .catch((e) => console.log(e));
-  }, [id]);
+  }, []);
   console.log(data);
 
   const date = new Date();
@@ -34,8 +38,6 @@ export const StayDetail = () => {
   const [currentData, setCurrentDate] = useState(date);
   const [bookDate, setBookDate] = useState(targetDate);
   const [guestNumber, setGuestNumber] = useState(1);
-  console.log(guestNumber);
-  console.log(currentData);
   const Total =
     Math.round(
       (new Date(bookDate)?.getTime() - new Date(currentData)?.getTime()) /
@@ -51,11 +53,22 @@ export const StayDetail = () => {
     checkInDate: currentData,
     checkOutDate: bookDate,
     maxGuests: guestNumber,
-    stay:data
+    stay: data,
+  };
+
+  const handleApprove = (id) => {
+    axios
+      .put(`http://localhost:4000/api/admin/verify/${id}`)
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
   };
   return (
     <div>
-      <Navbar />
+      <div className={`${info.admin ? "hidden" : ""}`}>
+        {" "}
+        <Navbar />
+      </div>
+
       <div className="px-[115px] pt-5">
         <div className="">
           <h1 className="font-bold text-2xl">
@@ -218,14 +231,28 @@ export const StayDetail = () => {
               </div>
             </div>
           </div>
-          <div className="w-[35%] h-[520px] mt-7 sticky top-0 rounded-[20px] shadow-xl flex flex-col items-center">
+          <button
+            className={`"w-5/6 h-[50px] bg-[#FF385C] mt-3 rounded-md p-2 text-white font-semibold sticky top-[100px] " ${
+              info.admin ? "" : "hidden"
+            }`}
+            onClick={()=>handleApprove(data?._id)}
+          >
+            Approve Listing
+          </button>
+          <div
+            className={`"w-[35%] h-[520px] mt-7 sticky top-0 rounded-[20px] shadow-xl flex flex-col items-center "  ${
+              info.admin ? "hidden" : ""
+            }`}
+          >
             <div className="flex items-center px-3 pt-2 h-12 ">
               <p className="font-bold text-xl pr-3">₹ {data?.price}</p>{" "}
               <p className="pr-3">night</p>{" "}
               <img src={star} alt="df" className="w-3 h-3" />{" "}
               <span className="font-bold">4.76</span> <span>· 25 reviews</span>
             </div>
-            <div className="w-5/6 h-32  rounded-[10px] overflow-hidden border">
+            <div
+              className={`"w-5/6 h-32  rounded-[10px] overflow-hidden border "`}
+            >
               <div className="w-full h-1/2 flex ">
                 <div className=" w-1/2 h-full ">
                   <input
@@ -339,7 +366,10 @@ export const StayDetail = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <div className={`${info.admin ? "hidden" : ""}`}>
+        {" "}
+        <Footer />
+      </div>
     </div>
   );
 };

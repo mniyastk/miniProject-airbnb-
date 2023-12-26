@@ -13,6 +13,7 @@ const authSlice = createSlice({
         },
         clearAuthToken:(state)=>{
             state.authToken=null
+            state.host_id=null
         }
     }
 })

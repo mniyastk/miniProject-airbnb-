@@ -27,13 +27,11 @@ export const Home = () => {
   //TODO :eslint
   const [width, setWidth] = useState(0);
   const handleRight = (e) => {
-    console.log("hi");
     e.stopPropagation();
     if (width < Math.round(navitems.length / 9)) {
       setWidth((prevWidth) => prevWidth + 1);
     }
   };
-  console.log(width);
   const handleLeft = (e) => {
     e.stopPropagation();
     if (width > 0) {
@@ -98,7 +96,10 @@ export const Home = () => {
       <div className="h-auto flex flex-wrap justify-between px-10  overflow-scroll">
         {stays.map((data, index) => {
           return (
-            <NavLink to={`/user/stay/${data._id}`}>
+            <NavLink to={{pathname:`/user/stay/${data._id}`,
+            search: `?data=${encodeURIComponent(
+              JSON.stringify({ admin: false })
+            )}`}}>
               <StayCard {...{ data, favouritedStays }} key={index} />
             </NavLink>
           );

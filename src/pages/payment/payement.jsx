@@ -16,7 +16,7 @@ const Payment = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const {authToken} = useSelector(data=>data.auth)
-  console.log(authToken);
+
   const params = new URLSearchParams(location.search);
   const data = JSON.parse(decodeURIComponent(params.get("data")));
   const stay = data?.stay?._id
@@ -27,7 +27,6 @@ const Payment = () => {
       number_of_guests:data.maxGuests
     },
   };
-  console.log(checkData);
 
   const months = [
     "Jan",

@@ -26,6 +26,7 @@ import Users from "./pages/Admin/users/Users";
 import NotFound from "./components/NotFound";
 import TestLogin from "./testLogin";
 import Listings from "./pages/Admin/Listings/Listings";
+import PendingListings from "./pages/Admin/pendingListings/PendingListings";
 
 export const myContext = createContext();
 
@@ -52,8 +53,10 @@ function App() {
             <Route index element={<Users />} />{" "}
             <Route path="users" element={<Users />} />
             <Route path="listings" element={<Listings />} />
+            <Route path="pending" element={<PendingListings />} />
             
           </Route>
+          <Route path="/admin/pending/:id" element={<StayDetail />} />
           <Route path="/user/stay/:id" element={<StayDetail />} />
           <Route path="/host" element={<HostHome />} />
           <Route path="/test" element={<TestLogin />} />

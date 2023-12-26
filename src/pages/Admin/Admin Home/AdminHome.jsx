@@ -44,7 +44,7 @@ const AdminHome = () => {
               Listings
             </h1>
           </div>
-          <div className="w-full h-12 flex items-center pl-2  border rounded hover:cursor-pointer hover:bg-slate-200  ">
+          <div className="w-full h-12 flex items-center pl-2  border rounded hover:cursor-pointer hover:bg-slate-200  " onClick={()=>{navigate("/admin/pending")}}>
             {" "}
             <img src={approval} alt="" className="w-5 h-5" />{" "}
             <h1 className="text-[#707FDD] font-semibold text-xs pl-2">
