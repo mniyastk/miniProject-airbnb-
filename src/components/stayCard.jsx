@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-// import cardImage from '../assets/Rectangle 9.svg'
 import rightArrow from "../assets/rightArrow.svg";
 import leftArrow from "../assets/leftArrow.svg";
-import favourite from "../assets/favourite.svg";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { myContext } from "../App";
 export const StayCard = ({ data, favouritedStays,favourite }) => {
+
+  
   const { authToken } = useSelector((data) => data.auth);
 const {signIn, setSignIn}= useContext(myContext)
 
@@ -57,6 +57,7 @@ const {signIn, setSignIn}= useContext(myContext)
 
         })
         .catch((e) => console.log(e));
+
     } else {
       axios
         .post(
@@ -87,15 +88,14 @@ const {signIn, setSignIn}= useContext(myContext)
       setFavColour("red");
     }
   }, [favouritedStays]);
-
   return (
-    <div className=" w-[305px] h-[390px] flex flex-col ">
+    <div className=" w-[305px] h-[390px] flex flex-col relative ">
       <div
         className="w-[300px] h-[285px] rounded-md overflow-hidden relative "
         onMouseEnter={() => setShowArrow(true)}
         onMouseLeave={() => setShowArrow(false)}
       >
-        <div className={`"absolute top-3 right-3 " ${!favourite?"hidden":""}`}>
+        <div className={`" absolute top-3 right-3 " ${favourite===false?"hidden":""} `}>
           <svg
             onClick={handleFavourite}
             xmlns="http://www.w3.org/2000/svg"

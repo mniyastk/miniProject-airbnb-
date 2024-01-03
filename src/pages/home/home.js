@@ -6,7 +6,6 @@ import rightArrow from "../../assets/rightArrow.svg";
 import leftArrow from "../../assets/leftArrow.svg";
 
 import { StayCard } from "../../components/stayCard";
-import { staysData } from "../../data/stays";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -38,6 +37,7 @@ export const Home = () => {
       setWidth((pre) => pre - 1);
     }
   };
+ 
   return (
     <div className="relative">
       <Navbar {...{search}}/>
@@ -93,7 +93,7 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      <div className="h-auto flex flex-wrap justify-between px-10  overflow-scroll">
+      <div className="h-auto grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1  px-10  overflow-scroll">
         {stays.map((data, index) => {
           return (
             <NavLink to={{pathname:`/user/stay/${data._id}`,

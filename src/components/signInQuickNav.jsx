@@ -35,7 +35,10 @@ const SignInQuickNav = ({ toggle, setToggle }) => {
       >
         Wishlists
       </div>
-      <div className="w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center">
+      <div
+        className="w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center"
+        onClick={() => navigate("/host/listings")}
+      >
         Manage listings
       </div>
       <div className="w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center">

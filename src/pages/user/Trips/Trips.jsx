@@ -6,11 +6,13 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 import test from "../../../assets/pro image 2.webp";
+import Bill from "../../../components/Bill";
 
 const Trips = () => {
   const { authToken } = useSelector((data) => data.auth);
 
   const [bookings, setBookings] = useState([]);
+  const [showBill, setShowBill] = useState(false);
   const search = false;
   const navigate = useNavigate();
   useEffect(() => {
@@ -107,6 +109,12 @@ const Trips = () => {
                     .join("-")}
                 </span>
                 <button
+                  className="bg-red-500 rounded-md text-white font-semibold text-sm px-2 h-10"
+                  onClick={() => setShowBill(!showBill)}
+                >
+                  Invoice
+                </button>
+                <button
                   className="bg-red-500 rounded-md text-white font-semibold text-sm w-[120px] h-10"
                   onClick={() => handleCancel(item.stay._id)}
                 >
@@ -117,6 +125,26 @@ const Trips = () => {
           })}
         </div>
       </div>
+      <div
+        className={` " fixed top-0  bottom-0 left-0 right-0 m-auto bg-slate-600 opacity-40 z-[780]  " ${
+          showBill ? "" : "hidden"
+        }`}
+      >
+        <div
+          className=" sticky top-0 left-2  rounded-full font-bold text-base  hover:cursor-pointer border w-6 h-6 flex justify-center items-center bg-white "
+          onClick={() => setShowBill(!showBill)}
+        >
+          x
+        </div>
+      </div>
+      <div
+        className={` " fixed top-0 bottom-0 left-0 right-0 m-auto w-1/2   overflow-scroll bg-white z-[900] pt-10 " ${
+          showBill ? "" : "hidden"
+        }`}
+      >
+        <Bill {...{ showBill, setShowBill }} />
+      </div>
+
       <Footer />
     </div>
   );

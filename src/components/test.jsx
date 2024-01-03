@@ -1,45 +1,48 @@
-// FileUpload.js
-
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { addProperty } from '../redux/slices';
-import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-const Test = () => {
-  const navigate =useNavigate()
-  const {property}= useSelector(data=>data.data)
-  console.log(property)
-  const dispatch  = useDispatch();
+const MyDateRangePicker = () => {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
 
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [startDate, setStartDate] = useState(tomorrow);
 
-  const handleFileChange = (e) => {
-    const files = e.target.files;
-    setSelectedFiles([...selectedFiles, ...files]);
-  };
+  const [endDate, setEndDate] = useState(() => {
+    const endDateCopy = new Date(tomorrow);
+    endDateCopy.setDate(tomorrow.getDate() + 4);
+    return endDateCopy;
+  });
 
-  const handleUpload = async () => {
-    try {
-     
-
-
-     dispatch(addProperty({property:"images",data:selectedFiles}))
-      // const response = await axios.post('http://localhost:4000/api/imageUpload', formData);
-      navigate('/test2')
-      // console.log(response.data)
-    } catch (error) {
-      console.error('Error uploading files:', error);
-    }
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
   };
 
   return (
     <div>
-      <label htmlFor="fileInput">Select multiple images:</label>
-      <input type="file" id="fileInput" multiple onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
+      <DatePicker
+        selected={startDate}
+        minDate={today}
+        onChange={handleStartDateChange}
+        selectsStart
+        startDate={startDate}
+        endDate={endDate}
+        filterDate={(date) => date >= today}
+        placeholderText="Check In"
+      />
+
+      <DatePicker
+        selected={endDate}
+        onChange={(date) => setEndDate(new Date(date))}
+        selectsEnd
+        startDate={startDate}
+        endDate={endDate}
+        minDate={startDate}
+        placeholderText="Check Out"
+      />
     </div>
   );
 };
 
-export default Test;
+export default MyDateRangePicker;

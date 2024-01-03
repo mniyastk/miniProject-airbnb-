@@ -5,13 +5,16 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useDispatch } from "react-redux";
+import { setAuthToken } from "../../redux/authSlice";
 
 export const SignUp = (props) => {
   const form = useForm();
   const { register, control, handleSubmit, formState, watch } = form;
-  const [googleAuth, seGoogleAuth] = useState([]);
+  const [googleAuth, setGoogleAuth] = useState(null);
   const navigate = useNavigate();
   const { errors } = formState;
+  const dispatch = useDispatch()
 
   const onSubmit = (data) => {
     axios
@@ -32,15 +35,46 @@ export const SignUp = (props) => {
       });
   };
   const password = watch("password");
-  // useEffect(
-  //   ()=>{
 
-  //   }
-  // ,[])
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse),
-    // onError:toast("Login failed")
+    onSuccess: (tokenResponse) => setGoogleAuth(tokenResponse),
+    onError: (error) => console.log("Login failed", error),
   });
+  useEffect(() => {
+    if (googleAuth) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${googleAuth.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${googleAuth.access_token}`,
+              Accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          axios
+            .post("http://localhost:4000/api/user/google/registration", { res })
+            .then((res) => {
+              dispatch(setAuthToken({
+                token:res.data.token,
+                user_id:res.data.user_id
+              }))
+              if (res.status === 200) {
+                toast.success("User Logged in successfull");
+              } else {
+                toast.success("User registration successfull");
+              }             
+                props.setSignUp(false);        
+              navigate("/");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [googleAuth]);
   return (
     <div className="w-full flex flex-col justify-center items-center h-full bg-white z-[999]">
       <form

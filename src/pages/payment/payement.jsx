@@ -52,14 +52,14 @@ const Payment = () => {
 
   const initPayment = (datas) => {
     const options = {
-      key: "rzp_test_a7yZV4aTtxwq0f",
-      amount: 5000,
+      key: "rzp_test_honHfX5R4mjKV3",
+      amount: datas.amount,
       currency: datas.currency,
       name: data?.stay?.title,
       description: "Test Payment",
       image: data?.stay?.images[0]?.url,
       order_id: datas.id,
-      handler: async (response) => {
+      handler: async (response) => {  
         try {
           const { data } = await axios.post(
             "http://localhost:4000/api/user/booking/order/verify",
@@ -98,7 +98,7 @@ const Payment = () => {
   const handlePayment = () => {
     axios
       .post("http://localhost:4000/api/user/booking/order/create", {
-        data: { amount: 50 },
+        data: { amount: 40000},
       })
       .then((data) => {
         console.log(data);
@@ -191,11 +191,11 @@ const Payment = () => {
                 responsible for damage.
               </p>
             </div>
+              
             <button
               className="w-[200px] h-14 bg-pink-600 rounded-md text-white text-base p-3 font-semibold flex justify-center items-center mt-4 mb-10 "
               onClick={handlePayment}
             >
-              {" "}
               Confirm and pay{" "}
             </button>
           </div>
@@ -244,7 +244,7 @@ const Payment = () => {
       </div>
       <div className="h-[80px] border-t flex ">
         <div className="w-1/2 h-[100%] flex justify-center items-center">
-          <p className="">
+          <p className="font-semibold text-sm">
             © 2023 Airbnb, Inc. · Privacy · Terms · Sitemap · Company details
           </p>{" "}
         </div>

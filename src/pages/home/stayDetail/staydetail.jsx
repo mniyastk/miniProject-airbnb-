@@ -9,14 +9,30 @@ import des1 from "../../../assets/des1.svg";
 import des2 from "../../../assets/des2.svg";
 import des3 from "../../../assets/des3.svg";
 import security from "../../../assets/security.svg";
-import { Link, useParams } from "react-router-dom";
+import leftArrow from "../../../assets/leftArrow.svg";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 export const StayDetail = () => {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  const [startDate, setStartDate] = useState(tomorrow);
+
+  const [endDate, setEndDate] = useState(() => {
+    const endDateCopy = new Date(tomorrow);
+    endDateCopy.setDate(tomorrow.getDate() + 4);
+    return endDateCopy;
+  });
+
   const params = new URLSearchParams(location.search);
   const info = JSON.parse(decodeURIComponent(params.get("data")));
   // const [stay, setStay] = useState({});
   const [data, setData] = useState();
   const { id } = useParams();
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get(`http://localhost:4000/api/${info.admin ? "admin" : "user"}/${id}`)
@@ -27,20 +43,20 @@ export const StayDetail = () => {
   }, []);
   console.log(data);
 
-  const date = new Date();
-  date.setDate(date.getDate() + 1);
-  const defaultDate = date.toISOString().slice(0, 10);
+  // const date = new Date();
+  // date.setDate(date.getDate() + 1);
+  // const defaultDate = date.toISOString().slice(0, 10);
 
-  const targetDate = new Date();
-  targetDate.setDate(targetDate.getDate() + 5);
-  const defaultBookDate = targetDate.toISOString().slice(0, 10);
+  // const targetDate = new Date();
+  // targetDate.setDate(targetDate.getDate() + 5);
+  // const defaultBookDate = targetDate.toISOString().slice(0, 10);
 
-  const [currentData, setCurrentDate] = useState(date);
-  const [bookDate, setBookDate] = useState(targetDate);
+  // const [currentData, setCurrentDate] = useState(date);
+  // const [bookDate, setBookDate] = useState(targetDate);
   const [guestNumber, setGuestNumber] = useState(1);
   const Total =
     Math.round(
-      (new Date(bookDate)?.getTime() - new Date(currentData)?.getTime()) /
+      (new Date(endDate)?.getTime() - new Date(startDate)?.getTime()) /
         (1000 * 60 * 60 * 24)
     ) *
     guestNumber *
@@ -50,8 +66,8 @@ export const StayDetail = () => {
   //   axios.post("")
   // }
   const sentData = {
-    checkInDate: currentData,
-    checkOutDate: bookDate,
+    checkInDate: startDate,
+    checkOutDate: endDate,
     maxGuests: guestNumber,
     stay: data,
   };
@@ -63,12 +79,21 @@ export const StayDetail = () => {
       .catch((e) => console.log(e));
   };
   return (
-    <div>
+    <div className="flex flex-col">
       <div className={`${info.admin ? "hidden" : ""}`}>
         {" "}
         <Navbar />
       </div>
-
+      <div className="ml-5 mt-5">
+        <div
+          className={`"  border rounded-full bg-white w-[35px] h-[35px] p-[10px]  hover:cursor-pointer "
+         
+          `}
+          onClick={() => navigate(-1)}
+        >
+          <img src={leftArrow} alt="leftArrow" className="" />
+        </div>
+      </div>
       <div className="px-[115px] pt-5">
         <div className="">
           <h1 className="font-bold text-2xl">
@@ -232,15 +257,15 @@ export const StayDetail = () => {
             </div>
           </div>
           <button
-            className={`"w-5/6 h-[50px] bg-[#FF385C] mt-3 rounded-md p-2 text-white font-semibold sticky top-[100px] " ${
+            className={` " w-5/6 h-[50px] bg-[#FF385C] mt-3 rounded-md p-2 text-white font-semibold sticky top-[100px] "  ${
               info.admin ? "" : "hidden"
             }`}
-            onClick={()=>handleApprove(data?._id)}
+            onClick={() => handleApprove(data?._id)}
           >
             Approve Listing
           </button>
           <div
-            className={`"w-[35%] h-[520px] mt-7 sticky top-0 rounded-[20px] shadow-xl flex flex-col items-center "  ${
+            className={` " w-[35%] h-[520px] mt-7 sticky top-0 rounded-[20px] shadow-xl flex flex-col items-center "  ${
               info.admin ? "hidden" : ""
             }`}
           >
@@ -254,24 +279,47 @@ export const StayDetail = () => {
               className={`"w-5/6 h-32  rounded-[10px] overflow-hidden border "`}
             >
               <div className="w-full h-1/2 flex ">
-                <div className=" w-1/2 h-full ">
-                  <input
+                <div className=" w-1/2 h-full flex justify-center items-center border-r ">
+                  {/* <input
                     type="date"
                     name=""
                     id=""
                     className="w-full h-full border-r "
                     defaultValue={defaultDate}
                     onChange={(e) => setCurrentDate(e.target.value)}
+                  /> */}
+                  <DatePicker
+                    selected={startDate}
+                    minDate={today}
+                    onChange={(date) => setStartDate(date)}
+                    selectsStart
+                    startDate={startDate}
+                    endDate={endDate}
+                    filterDate={(date) => date >= today}
+                    placeholderText="Check In"
+                    className="w-1/2  flex justify-center items-center outline-none h-full ml-8"
+                  
                   />
                 </div>
-                <div className=" w-1/2 h-full ">
-                  <input
+                <div className=" w-1/2 h-full flex items-center justify-center ml-8 outline-none">
+                  {/* <input
                     type="date"
                     name=""
                     id=""
                     className="w-full h-full"
                     onChange={(e) => setBookDate(e.target.value)}
                     defaultValue={defaultBookDate}
+                  /> */}
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                    // filterDate={isWeekday}
+                    placeholderText="Check Out"
+                    className="w-1/2  flex justify-center items-center outline-none h-full ml-8"
                   />
                 </div>
               </div>
@@ -279,7 +327,7 @@ export const StayDetail = () => {
                 {" "}
                 <select
                   name="guests"
-                  className="w-full h-full outline-none"
+                  className="w-full h-full outline-none pl-4 font-medium "
                   onChange={(e) => setGuestNumber(e.target.value)}
                 >
                   <option value={1}>1 guest</option>

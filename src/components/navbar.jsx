@@ -6,16 +6,16 @@ import tLines from "../assets/Vector (1).svg";
 import { SignUp } from "../pages/login&signup/SignUp";
 import SignIn from "../pages/login&signup/signIn";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setState } from "../redux/slices";
+
 import LoginQuickAccess from "./loginQuickAccess";
 import SignInQuickNav from "./signInQuickNav";
 import { myContext } from "../App";
 export const Navbar = ({search}) => {
   const { authToken } = useSelector((data) => data.auth);
-  const dispatch = useDispatch();
+
   const { signUp, setSignUp, signIn, setSignIn } = useContext(myContext);
 
   const [toggle, setToggle] = useState(false);
@@ -111,7 +111,7 @@ export const Navbar = ({search}) => {
         <div
           className={`${
             signUp || signIn
-              ? "fixed top-0 right-0 bottom-0  left-0 m-auto bg-slate-600 opacity-40 z-20"
+              ? "fixed top-0  bottom-0 right-0 left-0 m-auto bg-slate-600 opacity-40 z-20"
               : "hidden"
           }`}
           onClick={handleBackground}
@@ -136,18 +136,7 @@ export const Navbar = ({search}) => {
         </div>
       </div>
       <div className="signIN">
-        <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+       
       </div>
     </div>
   );

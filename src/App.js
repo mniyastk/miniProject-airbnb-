@@ -24,9 +24,12 @@ import Trips from "./pages/user/Trips/Trips";
 import AdminHome from "./pages/Admin/Admin Home/AdminHome";
 import Users from "./pages/Admin/users/Users";
 import NotFound from "./components/NotFound";
-import TestLogin from "./testLogin";
 import Listings from "./pages/Admin/Listings/Listings";
 import PendingListings from "./pages/Admin/pendingListings/PendingListings";
+import Dashboard from "./pages/Admin/Dashboard/Dashboard";
+import DateRangePickerValue from "./components/test";
+import HostListings from "./pages/user/Listings/Listings";
+import { ToastContainer } from "react-toastify";
 
 export const myContext = createContext();
 
@@ -37,6 +40,18 @@ function App() {
 
   return (
     <>
+     <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       <myContext.Provider
         value={{
           favouritedStays,
@@ -50,20 +65,21 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<AdminHome />}>
-            <Route index element={<Users />} />{" "}
+            <Route index element={<Dashboard />} />{" "}
             <Route path="users" element={<Users />} />
             <Route path="listings" element={<Listings />} />
             <Route path="pending" element={<PendingListings />} />
-            
+            <Route path="dashboard" element={<Dashboard />} />
           </Route>
           <Route path="/admin/pending/:id" element={<StayDetail />} />
           <Route path="/user/stay/:id" element={<StayDetail />} />
           <Route path="/host" element={<HostHome />} />
-          <Route path="/test" element={<TestLogin />} />
+          <Route path="/test" element={<DateRangePickerValue/>} />
           <Route path="/test2" element={<TestTwo />} />
           <Route path="/wishlists" element={<Wishlists />} />
           <Route path="/payments" element={<Payment />} />
           <Route path="/user/trips" element={<Trips />} />
+          <Route path="/host/Listings" element={<HostListings />} />
           <Route path="/addListings" element={<AddListingLayout />}>
             <Route index element={<StepOne />} />
             <Route path="stepOne" element={<StepOne />} />
