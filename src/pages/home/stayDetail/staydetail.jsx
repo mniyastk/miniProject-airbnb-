@@ -19,6 +19,8 @@ import { useSelector } from "react-redux";
 
 export const StayDetail = () => {
   const { authToken } = useSelector((data) => data.auth);
+  const { adminToken } = useSelector((data) => data.admin);
+
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
@@ -36,7 +38,9 @@ export const StayDetail = () => {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/${info.admin ? "admin" : "user"}/${id}`)
+      .get(`http://localhost:4000/api/${info.admin ? "admin" : "user"}/${id}`,{headers:{
+        Authorization : `Bearer ${adminToken}`
+      }})
       .then((data) => {
         setData(data.data.data);
       })
@@ -47,6 +51,7 @@ export const StayDetail = () => {
         {
           headers: {
             id: id,
+            Authorization:`Bearer ${adminToken}`
           },
         },
         { id }
@@ -100,6 +105,9 @@ export const StayDetail = () => {
         toast("Error in deletion");
       });
   };
+  const handleListing =(id)=>{
+console.log(id);
+  }
 
   return (
     <div className="flex flex-col">
@@ -295,6 +303,14 @@ export const StayDetail = () => {
               onClick={() => handleDisapprove(data?._id)}
             >
               Disapprove Listing
+            </button>
+            <button
+              className={` " w-1/2 h-[50px] bg-[#FF385C] mt-3 rounded-md p-2 text-white font-semibold sticky top-[100px] "  ${
+                info.host ? "" : "hidden"
+              }`}
+              onClick={() => handleListing(data?._id)}
+            >
+              Delete Listing
             </button>
           </div>
 

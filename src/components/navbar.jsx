@@ -13,10 +13,12 @@ import { useDispatch, useSelector } from "react-redux";
 import LoginQuickAccess from "./loginQuickAccess";
 import SignInQuickNav from "./signInQuickNav";
 import { myContext } from "../App";
+import axios from "axios";
 export const Navbar = ({ search }) => {
   const { authToken } = useSelector((data) => data.auth);
+  const [keyword, setKeyword] = useState("");
 
-  const { signUp, setSignUp, signIn, setSignIn } = useContext(myContext);
+  const { signUp, setSignUp, signIn, setSignIn ,defaultMessage, setDefaultMessage,stays, setStays} = useContext(myContext);
 
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
@@ -35,6 +37,23 @@ export const Navbar = ({ search }) => {
   } else {
     document.body.style.overflow = "";
   }
+  const handleSearch = () => {
+    axios
+      .get(
+        `http://localhost:4000/api/users/properties/search?keyword=${keyword}`
+      )
+      .then((res) =>{ 
+        if((res.data.results.length)===0){
+          setDefaultMessage(true)
+          setStays([])
+        }else{
+          setDefaultMessage(false)
+          setStays(res.data.results)
+        }
+     
+      })
+      .catch((e) => console.log(e));
+  };
   return (
     <div className="w-full h-[80px] flex border-b border-b-slate-300 sticky top-0 z-30 bg-white">
       <div className="flex-1 flex items-center ">
@@ -54,9 +73,13 @@ export const Navbar = ({ search }) => {
         >
           <input
             className="h-full ml-6 w-3/4 border-0 outline-none"
-            placeholder="Anywhere | Any week | Add guests"
+            placeholder="Search"
+            onChange={(e) => setKeyword(e.target.value)}
           />
-          <div className="w-[32px] h-[32px] rounded-full flex items-center justify-center bg-[#FF385C]">
+          <div
+            className="w-[32px] h-[32px] rounded-full flex items-center justify-center hover:cursor-pointer bg-[#FF385C]"
+            onClick={() => handleSearch()}
+          >
             <img src={searchLogo} alt="search" />
           </div>
         </div>
@@ -131,10 +154,7 @@ export const Navbar = ({ search }) => {
               : "hidden"
           }`}
         >
-          <SignUp
-          {...{setSignUp,setSignIn,signIn,signUp}}
-      
-          />
+          <SignUp {...{ setSignUp, setSignIn, signIn, signUp }} />
         </div>
         <div
           className={`${
@@ -143,7 +163,7 @@ export const Navbar = ({ search }) => {
               : "hidden"
           }`}
         >
-          <SignIn {...{setSignUp,setSignIn,signIn,signUp}} />
+          <SignIn {...{ setSignUp, setSignIn, signIn, signUp }} />
         </div>
       </div>
       <div className="signIN"></div>

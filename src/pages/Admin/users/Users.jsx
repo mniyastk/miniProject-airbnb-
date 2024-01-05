@@ -3,57 +3,45 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import UserCard from "../../../components/users";
+import { useSelector } from "react-redux";
 
 const Users = () => {
+  const {adminToken} = useSelector(data=>data.admin)
   const [users, setUsers] = useState([]);
   const [render, setRender] = useState(false);
-  console.log(render);
+
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/admin/users")
+      .get(`http://localhost:4000/api/admin/users`,{headers:{
+        Authorization:`Bearer ${adminToken}`
+      }})
       .then((res) => {
         setUsers(res.data.data);
       })
       .catch((err) => console.log(err));
   }, [render]);
-  // const hanldeUser = (id, user_status) => {
-  //   axios
-  //     .put(`http://localhost:4000/api/admin/users/block_unblock/${id}`, {
-  //       input: { user_status: user_status },
-  //     })
-  //     .then((res) => { 
-  //       console.log("res");     
-  //       if (res.status === 200) {
-  //         toast("success");
-  //         setRender(true)
-  //       } else {
-  //         toast("Server Error");
-  //         setRender(true)
-  //       }
-  //     })
-  //     .catch(() => {
-  //       toast("Internal server error");
-  //     });
-  // };
-
   const hanldeUser = (id, user_status) => {
     axios
       .put(`http://localhost:4000/api/admin/users/block_unblock/${id}`, {
+        
         input: { user_status: user_status },
-      })
+        
+      },{headers:{
+        Authorization:`Bearer ${adminToken}`
+      }})
       .then((res) => {
-        console.log("Response:", res); // Log the entire response for debugging
+    
   
         if (res.status === 200) {
           toast("Success");
-          setRender(!render); // Invert the value to trigger a re-render
+          setRender(!render);
         } else {
           toast("Server Error");
-          setRender(!render); // Invert the value to trigger a re-render
+          setRender(!render);
         }
       })
-      .catch((error) => {
-        console.error("Error:", error); // Log the error for debugging
+      .catch(() => {
+       
         toast("Internal server error");
       });
   };

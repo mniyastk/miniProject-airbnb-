@@ -4,11 +4,17 @@ import users from "../../../assets/usersIcon.png";
 import listings from "../../../assets/listings.png";
 import approval from "../../../assets/approval.png";
 import settings from "../../../assets/vector-settings-icon.jpg";
-import Users from "../users/Users";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearAdminToken } from "../../../redux/adminAuth";
 
 const AdminHome = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const handleLogout=()=>{
+dispatch(clearAdminToken(null))
+navigate("/")
+  }
   return (
     <div className="flex h-full ">
       <div className="w-[240px] h-screen  bg-[#F1F2F7]  ">
@@ -21,7 +27,7 @@ const AdminHome = () => {
         <div className=" px-5 h-[500px] pt-5">
           <div
             className="w-full h-12 flex items-center pl-2  border rounded hover:cursor-pointer hover:bg-slate-200  "
-            onClick={() => navigate("/admin/dashboard")}
+            onClick={() => navigate("/admin/operations/dashboard")}
           >
             {" "}
             <img src={dashBorad} alt="" className="w-5 h-5" />{" "}
@@ -31,7 +37,7 @@ const AdminHome = () => {
           </div>
           <div
             className="w-full h-12 flex items-center pl-2  border rounded hover:cursor-pointer hover:bg-slate-200  "
-            onClick={() => navigate("/admin/users")}
+            onClick={() => navigate("/admin/operations/users")}
           >
             {" "}
             <img src={users} alt="" className="w-5 h-5" />{" "}
@@ -39,7 +45,7 @@ const AdminHome = () => {
           </div>
           <div
             className="w-full h-12 flex items-center pl-2  border rounded hover:cursor-pointer hover:bg-slate-200  "
-            onClick={() => navigate("/admin/listings")}
+            onClick={() => navigate("/admin/operations/listings")}
           >
             {" "}
             <img src={listings} alt="" className="w-5 h-5" />{" "}
@@ -50,7 +56,7 @@ const AdminHome = () => {
           <div
             className="w-full h-12 flex items-center pl-2  border rounded hover:cursor-pointer hover:bg-slate-200  "
             onClick={() => {
-              navigate("/admin/pending");
+              navigate("/admin/operations/pending");
             }}
           >
             {" "}
@@ -59,13 +65,13 @@ const AdminHome = () => {
               Listings for review
             </h1>
           </div>
-          {/* <div className="w-full h-12 flex items-center pl-2  border rounded hover:cursor-pointer hover:bg-slate-200  ">
+          <div className="w-full h-12 flex items-center pl-2  border rounded hover:cursor-pointer hover:bg-slate-200  " onClick={handleLogout}>
             {" "}
             <img src={settings} alt="" className="w-5 h-5" />{" "}
             <h1 className="text-[#707FDD] font-semibold text-xs pl-2">
-              Configuration
+         Logout
             </h1>
-          </div> */}
+          </div>
         </div>
       </div>
       <div className=" h-screen w-full p-10">{<Outlet />}</div>

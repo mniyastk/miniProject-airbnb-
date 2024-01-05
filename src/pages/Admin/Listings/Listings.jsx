@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { StayCard } from "../../../components/stayCard";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Listings = () => {
   const [listings, setListings] = useState([]);
   const favourite = false;
-
+const {adminToken} = useSelector(data=>data.admin)
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/admin/listings")
+      .get("http://localhost:4000/api/admin/listings",{headers:{
+        Authorization:`Bearer ${adminToken}`
+      }})
       .then((res) => {
-        // Update the state with the fetched data
         setListings(res.data.data);
       })
       .catch((err) => console.log(err));

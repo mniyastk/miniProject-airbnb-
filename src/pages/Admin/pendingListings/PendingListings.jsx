@@ -1,14 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const PendingListings = () => {
   const navigate = useNavigate();
+  const {adminToken} = useSelector(data=>data.admin)
 
   const [fetchData, setFetchData] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/admin/unverfiedStays")
+      .get("http://localhost:4000/api/admin/unverfiedStays",{headers:{
+        Authorization:`Bearer ${adminToken}`
+      }})
       .then((data) => setFetchData(data.data.data))
       .catch((e) => console.log(e));
   }, []);

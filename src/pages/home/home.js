@@ -10,17 +10,22 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { myContext } from "../../App";
+import { toast } from "react-toastify";
 
 export const Home = () => {
-  const search =true
-  const { favouritedStays } = useContext(myContext);
-  const [stays, setStays] = useState([]);
-  console.log(favouritedStays);
+
+  const search = true;
+  const { favouritedStays,stays, setStays,defaultMessage, setDefaultMessage } = useContext(myContext);
+  // const [stays, setStays] = useState([]);
+  // const [defaultMessage, setDefaultMessage] = useState(false);
+
   useEffect(() => {
     axios
       .get("http://localhost:4000/api/user/stays")
-      .then((data) => setStays(data.data.data))
-      .catch((e) => console.log(e));
+      .then((data) => {
+        setDefaultMessage(false)
+        setStays(data.data.data)})
+      .catch(() => toast("Internal Server Error"));
   }, []);
 
   //TODO :eslint
@@ -37,10 +42,30 @@ export const Home = () => {
       setWidth((pre) => pre - 1);
     }
   };
- 
+
+  const handleCategory = (category) => {
+    axios
+      .get(
+        `http://localhost:4000/api/users/properties/category?stayType=${category}`
+      )
+      .then((res) => {
+        if (res.data.data.length === 0) {
+          setStays([]);
+          setDefaultMessage(true);
+          console.log("if");
+
+        } else {
+          setDefaultMessage(false);
+          setStays(res.data.data);
+          console.log("else");
+        }
+      })
+      .catch(() => toast("Internal server error"));
+  };
+
   return (
     <div className="relative">
-      <Navbar {...{search}}/>
+      <Navbar {...{ search }} />
       <div className="h-[80px] flex sticky top-[80px] z-20 bg-white">
         <div className="h-full w-[70%] pl-10 overflow-hidden flex gap-10 justify-between relative">
           <div
@@ -67,6 +92,7 @@ export const Home = () => {
               <div
                 className="h-full w-[100px] flex flex-col justify-center items-center hover:cursor-pointer "
                 key={index}
+                onClick={() => handleCategory(item.title)}
               >
                 <img src={item.src} alt="logo" className="w-[24px] h-[24px]" />
                 <span className="text-xs font-normal mt-2 whitespace-nowrap">
@@ -94,12 +120,19 @@ export const Home = () => {
         </div>
       </div>
       <div className="h-auto grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1  px-10  overflow-scroll">
+        <div className={` ${defaultMessage ? "" : "hidden"}  w-[1300px] h-[500px] justify-center items-center flex font-extrabold text-2xl`}>
+          No stays available in this category
+        </div>
         {stays.map((data, index) => {
           return (
-            <NavLink to={{pathname:`/user/stay/${data._id}`,
-            search: `?data=${encodeURIComponent(
-              JSON.stringify({ admin: false })
-            )}`}}>
+            <NavLink
+              to={{
+                pathname: `/user/stay/${data._id}`,
+                search: `?data=${encodeURIComponent(
+                  JSON.stringify({ admin: false ,host:false})
+                )}`,
+              }}
+            >
               <StayCard {...{ data, favouritedStays }} key={index} />
             </NavLink>
           );

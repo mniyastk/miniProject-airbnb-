@@ -23,35 +23,35 @@ const SignInQuickNav = ({ toggle, setToggle }) => {
       }`}
       onMouseLeave={() => setToggle(!toggle)}
     >
-      <div className="w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center">
+      <div className="w-full h-[14.2%] hover:cursor-pointer hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center">
         Messages
       </div>
       <div
-        className="w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center"
+        className="w-full h-[14.2%] hover:cursor-pointer hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center"
         onClick={() => navigate("/user/trips")}
       >
         Trips
       </div>
       <div
-        className="w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center"
+        className="w-full h-[14.2%] hover:cursor-pointer hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center"
         onClick={() => navigate("/wishlists")}
       >
         Wishlists
       </div>
       <div
-        className="w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center"
+        className="w-full h-[14.2%] hover:cursor-pointer hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center"
         onClick={() => navigate("/host/listings")}
       >
         Manage listings
       </div>
-      <div className="w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center">
+      <div className="w-full h-[14.2%] hover:cursor-pointer hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center">
         Account
       </div>
-      <div className="w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center">
+      <div className="w-full h-[14.2%] hover:cursor-pointer hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center">
         Help Center
       </div>
       <div
-        className="w-full h-[14.2%] hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center"
+        className="w-full h-[14.2%] hover:cursor-pointer hover:bg-slate-200 pl-2 text-xs font-semibold flex items-center"
         onClick={handleLogout}
       >
         Log out

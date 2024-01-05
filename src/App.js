@@ -30,6 +30,7 @@ import Dashboard from "./pages/Admin/Dashboard/Dashboard";
 import DateRangePickerValue from "./components/test";
 import HostListings from "./pages/user/Listings/Listings";
 import { ToastContainer } from "react-toastify";
+import { AdminLogin } from "./pages/Admin/Admin_Login/AdminLogin";
 
 export const myContext = createContext();
 
@@ -37,6 +38,8 @@ function App() {
   const [favouritedStays, setFavouritedStays] = useState([]);
   const [signUp, setSignUp] = useState(false);
   const [signIn, setSignIn] = useState(false);
+  const [stays, setStays] = useState([]);
+  const [defaultMessage, setDefaultMessage] = useState(false);
 
 
   return (
@@ -50,11 +53,16 @@ function App() {
           setSignUp,
           signIn,
           setSignIn,
+          stays, 
+          setStays,
+          defaultMessage,
+           setDefaultMessage
         }}
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/admin" element={<AdminHome />}>
+          <Route path="/admin" element={<AdminLogin />}/>
+          <Route path="/admin/operations" element={<AdminHome />}>
             <Route index element={<Dashboard />} />{" "}
             <Route path="users" element={<Users />} />
             <Route path="listings" element={<Listings />} />
