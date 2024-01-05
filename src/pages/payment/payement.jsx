@@ -66,14 +66,14 @@ const Payment = () => {
       handler: async (response) => {
         try {
           const { data } = await axios.post(
-            "http://localhost:4000/api/user/booking/order/verify",
+            "https://airbnb-2hlc.onrender.com/api/user/booking/order/verify",
             { response }
           );
           console.log(data)
           if (data) {
             axios
               .post(
-                `http://localhost:4000/api/user/booking/${stay}`,
+                `https://airbnb-2hlc.onrender.com/api/user/booking/${stay}`,
                 checkData,
                 {
                   headers: {

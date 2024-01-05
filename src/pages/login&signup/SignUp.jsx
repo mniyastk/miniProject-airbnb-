@@ -20,7 +20,7 @@ export const SignUp = ({setSignUp,setSignIn,signIn,signUp}) => {
 
   const onSubmit = (data) => {
     axios
-      .post("http://localhost:4000/api/user/register", { data })
+      .post("https://airbnb-2hlc.onrender.com/api/user/register", { data })
       .then(() => {
         formRef.current.reset();
         toast.success("User registration successfull");
@@ -57,7 +57,7 @@ export const SignUp = ({setSignUp,setSignIn,signIn,signUp}) => {
         )
         .then((res) => {
           axios
-            .post("http://localhost:4000/api/user/google/registration", { res })
+            .post("https://airbnb-2hlc.onrender.com/api/user/google/registration", { res })
             .then((res) => {
               dispatch(
                 setAuthToken({
@@ -71,7 +71,7 @@ export const SignUp = ({setSignUp,setSignIn,signIn,signUp}) => {
                 toast.success("User registration successfull");
               }
               axios
-                .get("http://localhost:4000/api/user/stays/wishlists", {
+                .get("https://airbnb-2hlc.onrender.com/api/user/stays/wishlists", {
                   headers: {
                     Authorization: `Bearer ${res.data.token}`,
                     "Content-Type": "application/json",
