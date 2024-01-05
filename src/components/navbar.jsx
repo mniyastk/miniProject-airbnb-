@@ -40,7 +40,7 @@ export const Navbar = ({ search }) => {
   const handleSearch = () => {
     axios
       .get(
-        `http://localhost:4000/api/users/properties/search?keyword=${keyword}`
+        `https://airbnb-2hlc.onrender.com/api/users/properties/search?keyword=${keyword}`
       )
       .then((res) =>{ 
         if((res.data.results.length)===0){

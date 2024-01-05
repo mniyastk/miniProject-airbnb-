@@ -20,7 +20,7 @@ const Trips = () => {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/user/bookings/all", {
+      .get("https://airbnb-2hlc.onrender.com/api/user/bookings/all", {
         headers: {
           Authorization: `Bearer ${authToken}`,
           "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const Trips = () => {
 
   const handleCancel = (_id) => {
     axios
-      .delete("http://localhost:4000/api/user/booking/cancel/stay", {
+      .delete("https://airbnb-2hlc.onrender.com/api/user/booking/cancel/stay", {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },

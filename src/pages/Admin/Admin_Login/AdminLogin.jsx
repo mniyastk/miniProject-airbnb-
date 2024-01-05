@@ -14,7 +14,7 @@ export const AdminLogin = () => {
     e.preventDefault()
     
     axios
-      .post("http://localhost:4000/api/admin/login", { admin, password })
+      .post("https://airbnb-2hlc.onrender.com/api/admin/login", { admin, password })
       .then((res) => {
         // console.log(res.data.data.token);
         dispatch(setAdminToken(res.data.data.token))

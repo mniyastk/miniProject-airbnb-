@@ -21,7 +21,7 @@ export const Home = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/user/stays")
+      .get("https://airbnb-2hlc.onrender.com/api/user/stays")
       .then((data) => {
         setDefaultMessage(false)
         setStays(data.data.data)})
@@ -46,7 +46,7 @@ export const Home = () => {
   const handleCategory = (category) => {
     axios
       .get(
-        `http://localhost:4000/api/users/properties/category?stayType=${category}`
+        `https://airbnb-2hlc.onrender.com/api/users/properties/category?stayType=${category}`
       )
       .then((res) => {
         if (res.data.data.length === 0) {

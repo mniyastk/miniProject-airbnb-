@@ -13,7 +13,7 @@ function Wishlists() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/user/stays/wishlists",{headers:{
+      .get("https://airbnb-2hlc.onrender.com/api/user/stays/wishlists",{headers:{
         'Authorization':`Bearer ${authToken}`,
         "Content-Type":"application/json"
 

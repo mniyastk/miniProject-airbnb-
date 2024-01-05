@@ -13,7 +13,7 @@ const HostListings = () => {
   const [listings, setListings] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/host/listings", {
+      .get("https://airbnb-2hlc.onrender.com/api/host/listings", {
         headers: {
           Authorization: `Bearer ${authToken}`,
           "Content-Type": "application/json",

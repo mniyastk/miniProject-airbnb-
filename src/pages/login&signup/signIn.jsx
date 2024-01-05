@@ -20,7 +20,7 @@ function SignIn({ setSignUp, setSignIn, signIn, signUp }) {
   const { setFavouritedStays } = useContext(myContext);
   const handleClick = (data) => {
     axios
-      .post("http://localhost:4000/api/user/login", { data })
+      .post("https://airbnb-2hlc.onrender.com/api/user/login", { data })
       .then((data) => {
         formRef.current.reset();
         dispatch(

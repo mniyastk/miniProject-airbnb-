@@ -29,7 +29,7 @@ const Price = () => {
 
   const handleClick = async () => {
     await axios
-      .post("http://localhost:4000/api/host/addlisting", formData, {
+      .post("https://airbnb-2hlc.onrender.com/api/host/addlisting", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization:`Bearer ${authToken}`

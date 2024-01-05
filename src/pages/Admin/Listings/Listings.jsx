@@ -9,7 +9,7 @@ const Listings = () => {
 const {adminToken} = useSelector(data=>data.admin)
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/admin/listings",{headers:{
+      .get("https://airbnb-2hlc.onrender.com/api/admin/listings",{headers:{
         Authorization:`Bearer ${adminToken}`
       }})
       .then((res) => {

@@ -22,7 +22,7 @@ for (let i = 0; i < file.length; i++) {
 console.log(formData)
   const sendData = async () => {
     await axios
-      .post("http://localhost:4000/api/imageUpload",formData,{
+      .post("https://airbnb-2hlc.onrender.com/api/imageUpload",formData,{
         headers: {
           'Content-Type': 'multipart/form-data',
         },

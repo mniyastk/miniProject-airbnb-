@@ -10,7 +10,7 @@ const PendingListings = () => {
   const [fetchData, setFetchData] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/admin/unverfiedStays",{headers:{
+      .get("https://airbnb-2hlc.onrender.com/api/admin/unverfiedStays",{headers:{
         Authorization:`Bearer ${adminToken}`
       }})
       .then((data) => setFetchData(data.data.data))

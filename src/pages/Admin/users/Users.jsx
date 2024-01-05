@@ -12,7 +12,7 @@ const Users = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/admin/users`,{headers:{
+      .get(`https://airbnb-2hlc.onrender.com/api/admin/users`,{headers:{
         Authorization:`Bearer ${adminToken}`
       }})
       .then((res) => {
@@ -22,7 +22,7 @@ const Users = () => {
   }, [render]);
   const hanldeUser = (id, user_status) => {
     axios
-      .put(`http://localhost:4000/api/admin/users/block_unblock/${id}`, {
+      .put(`https://airbnb-2hlc.onrender.com/api/admin/users/block_unblock/${id}`, {
         
         input: { user_status: user_status },
         

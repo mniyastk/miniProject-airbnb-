@@ -38,7 +38,7 @@ export const StayDetail = () => {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/${info.admin ? "admin" : "user"}/${id}`,{headers:{
+      .get(`https://airbnb-2hlc.onrender.com/api/${info.admin ? "admin" : "user"}/${id}`,{headers:{
         Authorization : `Bearer ${adminToken}`
       }})
       .then((data) => {
@@ -47,7 +47,7 @@ export const StayDetail = () => {
       .catch((e) => console.log(e));
     axios
       .get(
-        "http://localhost:4000/api/users/bookings/booking/dates",
+        "https://airbnb-2hlc.onrender.com/api/users/bookings/booking/dates",
         {
           headers: {
             id: id,
