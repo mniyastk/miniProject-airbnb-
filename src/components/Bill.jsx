@@ -2,14 +2,15 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
 import logo from "../assets/pngegg 1.png";
-const Bill = ({ showBill, setShowBill }) => {
+const Bill = ({ showBill, setShowBill ,billData}) => {
+  console.log(billData);
   const pdfRef = useRef();
   const handleDownload = () => {
     const input = pdfRef.current;
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL(" image/png ");
-      const pdf = new jsPDF("p", "mm", "a4", true);
-      const pdfWidth = pdf.internal.pageSize.getWidth() * 1.73;
+      const pdf = new jsPDF("p", "mm", "a4", false);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       const imageWidth = canvas.width;
       const imageHeight = canvas.height;
@@ -53,47 +54,47 @@ const Bill = ({ showBill, setShowBill }) => {
               })}
             </p>
             <div className=" p-3">
-              <h1 className="font-semibold text-sm py-1 "> Name : Niyas</h1>
+              <h1 className="font-semibold text-sm py-1 "> Name : {billData?.invoiceData?.full_name}</h1>
               <h1 className="font-semibold text-sm py-1 ">
                 {" "}
-                Accomodation Address : Malappuram ,India
+                Accomodation Address : {billData?.stay?.address?.District_localty },{billData?.stay?.country}
               </h1>
               <h1 className="font-semibold text-sm py-1 ">
                 {" "}
-                Accomodation Type : Entire home / apt{" "}
+                Accomodation Type : {billData?.stay?.stayType}
               </h1>
 
               <h1 className="font-semibold text-sm py-1 ">
                 {" "}
-                Check In Date : Thu, March 12 ,2023 12:00 PM{" "}
+                Check In Date : {billData?.checkInDate}
               </h1>
               <h1 className="font-semibold text-sm py-1 ">
                 {" "}
-                Check Out Date : Thu, March 17 ,2023 12:00 PM{" "}
+                Check Out Date : {billData?.checkOutDate}
               </h1>
-              <h1 className="font-semibold text-sm py-1 "> Guests : 4</h1>
+              <h1 className="font-semibold text-sm py-1 "> Guests : {billData?.guests}</h1>
 
-              <h1 className="font-semibold text-sm py-1 "> Nights : 5 </h1>
+              <h1 className="font-semibold text-sm py-1 "> Nights : {billData?.invoiceData?.nights} </h1>
               <p> </p>
             </div>
             <div className="p-2">
               <h1 className=" m-2 font-bold text-2xl">Payment Details </h1>
               <h1 className="font-semibold text-sm py-1 ">
                 {" "}
-                Price per Night : 15812
+                Price per Night : {billData?.stay?.price}
               </h1>
               <h1 className="font-semibold text-sm py-1 ">
                 {" "}
-                Airbnb service fee : 1400
+                Airbnb service fee : {billData?.invoiceData?.serviceFee}
               </h1>
-              <h1 className="font-semibold text-sm py-1 "> Total : 17000</h1>
+              <h1 className="font-semibold text-sm py-1 "> Total : {(billData?.invoiceData?.total)+(billData?.invoiceData?.serviceFee)}</h1>
               <h1 className="font-semibold text-sm py-1 ">
                 {" "}
-                Payment Recieved ,12/2/2032 12:23 : 17000
+                Payment Recieved ,{billData?.invoiceData?.paymentDate}
               </h1>
               <h1 className="font-semibold text-sm py-1 ">
                 {" "}
-                Payment Methode : VISA CARD ***********4587
+                Payment Methode : VISA CARD ***********1111
               </h1>
             </div>
           </div>

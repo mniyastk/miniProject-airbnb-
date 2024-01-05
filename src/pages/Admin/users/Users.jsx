@@ -1,20 +1,65 @@
 import React, { useEffect, useState } from "react";
-import user from "../../../assets/userForAdmin.jpeg";
+
 import axios from "axios";
+import { toast } from "react-toastify";
+import UserCard from "../../../components/users";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const data = fetch("https://api.postalpincode.in/pincode/673639")
-    .then((data) => data.json())
-    .then((data) => console.log(data[0].PostOffice))
-    .catch((e) => console.log(e));
+  const [render, setRender] = useState(false);
+  console.log(render);
   useEffect(() => {
     axios
       .get("http://localhost:4000/api/admin/users")
-      .then((res) => setUsers(res.data.data))
+      .then((res) => {
+        setUsers(res.data.data);
+      })
       .catch((err) => console.log(err));
-  }, []);
-  console.log(users);
+  }, [render]);
+  // const hanldeUser = (id, user_status) => {
+  //   axios
+  //     .put(`http://localhost:4000/api/admin/users/block_unblock/${id}`, {
+  //       input: { user_status: user_status },
+  //     })
+  //     .then((res) => { 
+  //       console.log("res");     
+  //       if (res.status === 200) {
+  //         toast("success");
+  //         setRender(true)
+  //       } else {
+  //         toast("Server Error");
+  //         setRender(true)
+  //       }
+  //     })
+  //     .catch(() => {
+  //       toast("Internal server error");
+  //     });
+  // };
+
+  const hanldeUser = (id, user_status) => {
+    axios
+      .put(`http://localhost:4000/api/admin/users/block_unblock/${id}`, {
+        input: { user_status: user_status },
+      })
+      .then((res) => {
+        console.log("Response:", res); // Log the entire response for debugging
+  
+        if (res.status === 200) {
+          toast("Success");
+          setRender(!render); // Invert the value to trigger a re-render
+        } else {
+          toast("Server Error");
+          setRender(!render); // Invert the value to trigger a re-render
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error); // Log the error for debugging
+        toast("Internal server error");
+      });
+  };
+  
+  
+
   return (
     <div className="flex flex-col gap-y-3 ">
       <div className="flex w-full h-16 sticky top-0 px-3 items-center text-white rounded bg-[#5A67BA]">
@@ -34,35 +79,7 @@ const Users = () => {
       </div>
       {users.map((item, id) => {
         return (
-          <div className="w-full h-14 border flex  px-3 rounded hover:cursor-pointer ">
-            <div className=" w-1/5 h-full flex justify-start items-center">
-              {" "}
-              <img src={user} alt="user" className="w-12 h-12 rounded" />
-            </div>
-            <div className=" w-1/5 h-full flex justify-start items-center">
-              {" "}
-              <h1 className="font-semibold text-sm">
-                {item.firstName + " " + item.lastName}{" "}
-              </h1>
-            </div>
-            <div className=" w-1/5 h-full flex justify-start items-center">
-              <span className="font-semibold text-sm"> {item.email} </span>
-            </div>
-            <div className=" w-1/5 h-full flex justify-start items-center">
-              {" "}
-              <span className="font-semibold text-sm"> {item.phone}</span>
-            </div>
-            <div className=" w-1/5 h-full flex justify-between items-center">
-              {" "}
-              <span className="font-semibold text-sm">{item.userType}</span>
-              <div>
-                <button className=" bg-red-500 text-white p-2 rounded font-bold text-sm">
-                  {" "}
-                  Block
-                </button>
-              </div>
-            </div>
-          </div>
+          <UserCard {...{ item, hanldeUser}} key={id} />
         );
       })}
     </div>

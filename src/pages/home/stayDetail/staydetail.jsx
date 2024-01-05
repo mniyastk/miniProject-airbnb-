@@ -14,23 +14,24 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 export const StayDetail = () => {
+  const { authToken } = useSelector((data) => data.auth);
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
-  const [startDate, setStartDate] = useState(tomorrow);
+  const [startDate, setStartDate] = useState(today);
 
-  const [endDate, setEndDate] = useState(() => {
-    const endDateCopy = new Date(tomorrow);
-    endDateCopy.setDate(tomorrow.getDate() + 4);
-    return endDateCopy;
-  });
+  const [endDate, setEndDate] = useState(tomorrow);
 
   const params = new URLSearchParams(location.search);
   const info = JSON.parse(decodeURIComponent(params.get("data")));
+
   // const [stay, setStay] = useState({});
   const [data, setData] = useState();
+  const [dates, setDates] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
@@ -40,20 +41,24 @@ export const StayDetail = () => {
         setData(data.data.data);
       })
       .catch((e) => console.log(e));
+    axios
+      .get(
+        "http://localhost:4000/api/users/bookings/booking/dates",
+        {
+          headers: {
+            id: id,
+          },
+        },
+        { id }
+      )
+      .then((data) => setDates(data.data.data))
+      .catch((e) => console.log(e));
   }, []);
-  console.log(data);
 
-  // const date = new Date();
-  // date.setDate(date.getDate() + 1);
-  // const defaultDate = date.toISOString().slice(0, 10);
-
-  // const targetDate = new Date();
-  // targetDate.setDate(targetDate.getDate() + 5);
-  // const defaultBookDate = targetDate.toISOString().slice(0, 10);
-
-  // const [currentData, setCurrentDate] = useState(date);
-  // const [bookDate, setBookDate] = useState(targetDate);
   const [guestNumber, setGuestNumber] = useState(1);
+  const nights =
+    (new Date(endDate)?.getTime() - new Date(startDate)?.getTime()) /
+    (1000 * 60 * 60 * 24);
   const Total =
     Math.round(
       (new Date(endDate)?.getTime() - new Date(startDate)?.getTime()) /
@@ -62,14 +67,16 @@ export const StayDetail = () => {
     guestNumber *
     data?.price;
 
-  // const handleReserve=()=>{
-  //   axios.post("")
-  // }
   const sentData = {
     checkInDate: startDate,
     checkOutDate: endDate,
     maxGuests: guestNumber,
     stay: data,
+    total: Total,
+    serviceFee: (Total * 14) / 100,
+    nights,
+    paymentRecievedTime:new Date().toString()
+
   };
 
   const handleApprove = (id) => {
@@ -78,9 +85,25 @@ export const StayDetail = () => {
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
   };
+  const handleDisapprove = (id) => {
+    axios
+      .delete(`http://localhost:4000/api/admin/disapprove/${id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          toast("Stay disapproved successfully");
+          navigate(-1);
+        } else {
+          toast("Unexpected response from the server");
+        }
+      })
+      .catch(() => {
+        toast("Error in deletion");
+      });
+  };
+
   return (
     <div className="flex flex-col">
-      <div className={`${info.admin ? "hidden" : ""}`}>
+      <div className={`${info?.admin ? "hidden" : ""}`}>
         {" "}
         <Navbar />
       </div>
@@ -256,14 +279,25 @@ export const StayDetail = () => {
               </div>
             </div>
           </div>
-          <button
-            className={` " w-5/6 h-[50px] bg-[#FF385C] mt-3 rounded-md p-2 text-white font-semibold sticky top-[100px] "  ${
-              info.admin ? "" : "hidden"
-            }`}
-            onClick={() => handleApprove(data?._id)}
-          >
-            Approve Listing
-          </button>
+          <div className="flex w-[300px] h-max gap-1">
+            <button
+              className={` " w-1/2 h-[50px] bg-[#3d9b3a] mt-3 rounded-md p-2 text-white font-semibold sticky top-[100px] "  ${
+                info.admin ? "" : "hidden"
+              }`}
+              onClick={() => handleApprove(data?._id)}
+            >
+              Approve Listing
+            </button>
+            <button
+              className={` " w-1/2 h-[50px] bg-[#FF385C] mt-3 rounded-md p-2 text-white font-semibold sticky top-[100px] "  ${
+                info.admin ? "" : "hidden"
+              }`}
+              onClick={() => handleDisapprove(data?._id)}
+            >
+              Disapprove Listing
+            </button>
+          </div>
+
           <div
             className={` " w-[35%] h-[520px] mt-7 sticky top-0 rounded-[20px] shadow-xl flex flex-col items-center "  ${
               info.admin ? "hidden" : ""
@@ -295,10 +329,15 @@ export const StayDetail = () => {
                     selectsStart
                     startDate={startDate}
                     endDate={endDate}
-                    filterDate={(date) => date >= today}
+                    filterDate={(date) => date > today}
+                    excludeDateIntervals={dates.map((range) => ({
+                      start:
+                        new Date(range.checkInDate).getTime() -
+                        24 * 60 * 60 * 1000,
+                      end: new Date(range.checkOutDate),
+                    }))}
                     placeholderText="Check In"
-                    className="w-1/2  flex justify-center items-center outline-none h-full ml-8"
-                  
+                    className="w-3/4  flex justify-center items-center outline-none h-full ml-8"
                   />
                 </div>
                 <div className=" w-1/2 h-full flex items-center justify-center ml-8 outline-none">
@@ -317,9 +356,14 @@ export const StayDetail = () => {
                     startDate={startDate}
                     endDate={endDate}
                     minDate={startDate}
-                    // filterDate={isWeekday}
+                    excludeDateIntervals={dates.map((range) => ({
+                      start:
+                        new Date(range.checkInDate).getTime() -
+                        24 * 60 * 60 * 1000,
+                      end: new Date(range.checkOutDate),
+                    }))}
                     placeholderText="Check Out"
-                    className="w-1/2  flex justify-center items-center outline-none h-full ml-8"
+                    className="w-3/4  flex justify-center items-center outline-none h-full  "
                   />
                 </div>
               </div>
@@ -340,20 +384,23 @@ export const StayDetail = () => {
             </div>
 
             <button
-              className="w-5/6 h-[50px] bg-[#FF385C] mt-3 rounded-md"
-              // onClick={handleReserve}
+              className="w-full h-[50px] bg-[#FF385C] mt-3 rounded-md"
+              onClick={() => {
+                if (authToken) {
+                  navigate({
+                    pathname: `/payments`,
+                    search: `?data=${encodeURIComponent(
+                      JSON.stringify(sentData)
+                    )}`,
+                  });
+                } else {
+                  toast("please login or register to Book");
+                }
+              }}
             >
-              <Link
-                to={{
-                  pathname: `/payments`,
-                  search: `?data=${encodeURIComponent(
-                    JSON.stringify(sentData)
-                  )}`,
-                }}
-              >
-                <span className="font-bold w-full h-full">Reserve</span>
-              </Link>
+              <span className="font-bold w-full h-full">Reserve</span>
             </button>
+
             <span className="mt-3">You won't be charged yet </span>
             <div className="flex justify-between w-5/6 mt-16">
               <span>Airbnb service fee</span>

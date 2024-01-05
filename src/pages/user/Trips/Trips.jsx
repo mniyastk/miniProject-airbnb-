@@ -5,14 +5,17 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-import test from "../../../assets/pro image 2.webp";
+// import test from "../../../assets/pro image 2.webp";
 import Bill from "../../../components/Bill";
+import { toast } from "react-toastify";
 
 const Trips = () => {
   const { authToken } = useSelector((data) => data.auth);
+  const [render,setRender]= useState(false)
 
   const [bookings, setBookings] = useState([]);
   const [showBill, setShowBill] = useState(false);
+  const [billData,setBillData]= useState('')
   const search = false;
   const navigate = useNavigate();
   useEffect(() => {
@@ -24,6 +27,7 @@ const Trips = () => {
         },
       })
       .then((data) => setBookings(data.data.data))
+
       .catch((e) => {
         if (e.response.status === 404) {
           setBookings([]);
@@ -31,7 +35,7 @@ const Trips = () => {
           toast("internel server error");
         }
       });
-  }, []);
+  }, [render]);
 
   const handleCancel = (_id) => {
     axios
@@ -42,17 +46,19 @@ const Trips = () => {
         data: { _id: _id },
       })
       .then((response) => {
-        if (response.status === 204) {
-          console.log("Booking canceled successfully");
+        if (response.status === 200) {
+         toast("Booking canceled successfully");
+         setRender(!render)
         } else {
-          console.log("Failed to cancel booking");
+         toast("Failed to cancel booking");
         }
       })
       .catch((error) => {
         console.log("Error during request:", error);
       });
   };
-
+  console.log(bookings);
+  // console.log(bookings.map(item=>item._doc));
   return (
     <div className="w-full h-full">
       <Navbar {...{ search }} />
@@ -87,12 +93,12 @@ const Trips = () => {
               <div className="flex items-center justify-between  ">
                 <div className=" overflow-hidden flex flex-col">
                   <img
-                    src={item?.stay?.images[0]?.url}
+                    src={item?.stay?.images[0].url}
                     alt="stayImage"
                     className="w-[100px] h-[60px] rounded-md"
                   />
                   <span className="font-semibold text-sm pt-2">
-                    {item?.stay?.propertyType} ,{" "}
+                    {item?.stay?.propertyType} ,
                     {item?.stay?.address.District_localty}
                   </span>
                 </div>
@@ -110,13 +116,16 @@ const Trips = () => {
                 </span>
                 <button
                   className="bg-red-500 rounded-md text-white font-semibold text-sm px-2 h-10"
-                  onClick={() => setShowBill(!showBill)}
+                  onClick={() =>{
+                    setBillData(item)
+                     setShowBill(!showBill)
+                  }}
                 >
                   Invoice
                 </button>
                 <button
                   className="bg-red-500 rounded-md text-white font-semibold text-sm w-[120px] h-10"
-                  onClick={() => handleCancel(item.stay._id)}
+                  onClick={() => handleCancel(item._id)}
                 >
                   Cancel Booking
                 </button>
@@ -142,7 +151,7 @@ const Trips = () => {
           showBill ? "" : "hidden"
         }`}
       >
-        <Bill {...{ showBill, setShowBill }} />
+        <Bill {...{ showBill, setShowBill,billData }} />
       </div>
 
       <Footer />

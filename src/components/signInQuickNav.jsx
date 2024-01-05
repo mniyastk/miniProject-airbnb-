@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearAuthToken } from "../redux/authSlice";
+import { myContext } from "../App";
 
 const SignInQuickNav = ({ toggle, setToggle }) => {
+  const { setFavouritedStays } = useContext(myContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(clearAuthToken());
+    setFavouritedStays([]);
     navigate("/");
   };
 

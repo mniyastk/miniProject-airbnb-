@@ -38,20 +38,10 @@ function App() {
   const [signUp, setSignUp] = useState(false);
   const [signIn, setSignIn] = useState(false);
 
+
   return (
     <>
-     <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+    
       <myContext.Provider
         value={{
           favouritedStays,
@@ -99,6 +89,18 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </myContext.Provider>
+      <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -8,21 +8,24 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { setAuthToken } from "../../redux/authSlice";
 
-export const SignUp = (props) => {
+
+export const SignUp = ({setSignUp,setSignIn,signIn,signUp}) => {
+  const formRef = useRef();
   const form = useForm();
   const { register, control, handleSubmit, formState, watch } = form;
   const [googleAuth, setGoogleAuth] = useState(null);
   const navigate = useNavigate();
   const { errors } = formState;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const onSubmit = (data) => {
     axios
       .post("http://localhost:4000/api/user/register", { data })
       .then(() => {
+        formRef.current.reset();
         toast.success("User registration successfull");
         setTimeout(() => {
-          props.setSignUp(false);
+          setSignUp(false);
         }, 1000);
         navigate("/");
       })
@@ -56,16 +59,27 @@ export const SignUp = (props) => {
           axios
             .post("http://localhost:4000/api/user/google/registration", { res })
             .then((res) => {
-              dispatch(setAuthToken({
-                token:res.data.token,
-                user_id:res.data.user_id
-              }))
+              dispatch(
+                setAuthToken({
+                  token: res.data.token,
+                  user_id: res.data.user_id,
+                })
+              );
               if (res.status === 200) {
                 toast.success("User Logged in successfull");
               } else {
                 toast.success("User registration successfull");
-              }             
-                props.setSignUp(false);        
+              }
+              axios
+                .get("http://localhost:4000/api/user/stays/wishlists", {
+                  headers: {
+                    Authorization: `Bearer ${res.data.token}`,
+                    "Content-Type": "application/json",
+                  },
+                })
+                .then((data) => setFavouritedStays(data.data.data))
+                .catch((e) => console.log(e));
+              setSignUp(false);
               navigate("/");
             })
             .catch((err) => {
@@ -75,12 +89,14 @@ export const SignUp = (props) => {
         .catch((err) => console.log(err));
     }
   }, [googleAuth]);
+
   return (
-    <div className="w-full flex flex-col justify-center items-center h-full bg-white z-[999]">
+    <div className="w-full flex flex-col justify-center items-center h-full bg-white z-[999] rounded-md overflow-scroll">
       <form
         className="flex flex-col w-3/5 justify-center h-max "
         onSubmit={handleSubmit(onSubmit)}
         noValidate
+        ref={formRef}
       >
         {/* <label htmlFor="firstName"></label> */}
         <input
@@ -182,8 +198,20 @@ export const SignUp = (props) => {
           Sign Up
         </button>
       </form>
+      <span className="font-semibold text-xs mt-2">
+        already an user ?{" "}
+        <span
+          className=" underline hover:cursor-pointer hover:text-blue-400 ml-1"
+          onClick={() => {
+            setSignUp(false);
+            setSignIn(true)
+          }}
+        >
+          click here to login
+        </span>
+      </span>
       <div
-        className=" flex justify-center items-center mt-2"
+        className=" flex justify-center items-center mt-4"
         onClick={() => login()}
       >
         <button className="gsi-material-button">

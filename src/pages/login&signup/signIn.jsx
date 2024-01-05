@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -9,25 +9,20 @@ import { setAuthToken } from "../../redux/authSlice";
 import { myContext } from "../../App";
 import { useGoogleLogin } from "@react-oauth/google";
 
-
-function SignIn(props) {
-  // const dispatch =useDispatch
+function SignIn({ setSignUp, setSignIn, signIn, signUp }) {
   const form = useForm();
+  const formRef = useRef();
   const { register, handleSubmit, formState } = form;
   const { errors } = formState;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [googleAuth,setGoogleAuth]= useState(null)
-  // const { authToken } = useSelector((data) => data.auth);
-  // console.log(authToken);
-  // const [data,setData]= useState([])
+  const [googleAuth, setGoogleAuth] = useState(null);
   const { setFavouritedStays } = useContext(myContext);
-
   const handleClick = (data) => {
-    console.log(data);
     axios
       .post("http://localhost:4000/api/user/login", { data })
       .then((data) => {
+        formRef.current.reset();
         dispatch(
           setAuthToken({
             token: data.data.data.token,
@@ -35,72 +30,80 @@ function SignIn(props) {
           })
         );
         toast.success("login successfull");
-
-        props.setSignIn(false);
-
-        navigate("/");
-
         axios
           .get("http://localhost:4000/api/user/stays/wishlists", {
             headers: {
-              Authorization: `Bearer ${data.data.token}`,
+              Authorization: `Bearer ${data.data.data.token}`,
               "Content-Type": "application/json",
             },
           })
           .then((data) => setFavouritedStays(data.data.data))
           .catch((e) => console.log(e));
+        setSignIn(false);
+        navigate("/");
       })
       .catch((e) => {
-        console.log(e);
-        toast("invalid email or Password");
+        toast(e.response.data.message);
       });
   };
 
-const login =useGoogleLogin({
-  onSuccess:(tokenresponse)=>setGoogleAuth(tokenresponse),
-  onError:(err)=>console.log("login failed ",err)
-})
-useEffect(() => {
-  if (googleAuth) {
-    axios
-      .get(
-        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${googleAuth.access_token}`,
-        {
-          headers: {
-            Authorization: `Bearer ${googleAuth.access_token}`,
-            Accept: "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        axios
-          .post("http://localhost:4000/api/user/google/registration", { res })
-          .then((res) => {
-            dispatch(setAuthToken({
-              token:res.data.token,
-              user_id:res.data.user_id
-            }))
-            if (res.status === 200) {
-              toast.success("User Logged in successfull");
-            } else {
-              toast.success("User registration successfull");
-            }          
-              props.setSignIn(false);   
-            navigate("/");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => console.log(err));
-  }
-}, [googleAuth]);
+  const login = useGoogleLogin({
+    onSuccess: (tokenresponse) => setGoogleAuth(tokenresponse),
+    onError: (err) => console.log("login failed ", err),
+  });
+  useEffect(() => {
+    if (googleAuth) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${googleAuth.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${googleAuth.access_token}`,
+              Accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          axios
+            .post("http://localhost:4000/api/user/google/registration", { res })
+            .then((res) => {
+              dispatch(
+                setAuthToken({
+                  token: res.data.token,
+                  user_id: res.data.user_id,
+                })
+              );
+              if (res.status === 200) {
+                toast.success("User Logged in successfull");
+              } else {
+                toast.success("User registration successfull");
+              }
+              axios
+                .get("http://localhost:4000/api/user/stays/wishlists", {
+                  headers: {
+                    Authorization: `Bearer ${res.data.token}`,
+                    "Content-Type": "application/json",
+                  },
+                })
+                .then((data) => setFavouritedStays(data.data.data))
+                .catch((e) => console.log(e));
+              setSignIn(false);
+              navigate("/");
+            })
+            .catch((err) => {
+             toast(err.response.data.message)
+            });
+        })
+        .catch((err) => toast(err.response.data.message));
+    }
+  }, [googleAuth]);
 
   return (
     <div className="w-3/4 flex flex-col justify-center items-center bg-white">
       <form
         className="w-full flex flex-col justify-center items-center"
         onSubmit={handleSubmit(handleClick)}
+        ref={formRef}
       >
         <input
           type="email"
@@ -139,9 +142,21 @@ useEffect(() => {
           {" "}
           Sign In{" "}
         </button>
+        <span className="font-semibold text-xs mt-2">
+          not an user ?{" "}
+          <span
+            className=" underline hover:cursor-pointer hover:text-blue-400 ml-1"
+            onClick={() => {
+              setSignIn(false);
+              setSignUp(true);
+            }}
+          >
+            click here to sign up
+          </span>
+        </span>
         {/* <input type="submit" value="dgdf" /> */}
       </form>
-      <button className="gsi-material-button" onClick={() => login()}>
+      <button className="gsi-material-button mt-4" onClick={() => login()}>
         <div className="gsi-material-button-state"></div>
         <div className="gsi-material-button-content-wrapper">
           <div className="gsi-material-button-icon">

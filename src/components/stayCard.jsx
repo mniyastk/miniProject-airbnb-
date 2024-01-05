@@ -4,11 +4,9 @@ import leftArrow from "../assets/leftArrow.svg";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { myContext } from "../App";
-export const StayCard = ({ data, favouritedStays,favourite }) => {
-
-  
+export const StayCard = ({ data, favouritedStays, favourite }) => {
   const { authToken } = useSelector((data) => data.auth);
-const {signIn, setSignIn}= useContext(myContext)
+  const { signIn, setSignIn } = useContext(myContext);
 
   const { setFavouritedStays } = useContext(myContext);
   // console.log(authToken);
@@ -19,7 +17,6 @@ const {signIn, setSignIn}= useContext(myContext)
   const [imageIndex, setImageIndex] = useState(0);
   const [favColour, setFavColour] = useState("var(--ihf-tp-q)");
   const handleRight = (e) => {
-    // console.log(data);
     e.stopPropagation();
 
     e.preventDefault();
@@ -41,51 +38,50 @@ const {signIn, setSignIn}= useContext(myContext)
   const handleFavourite = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    if(authToken){
-    if (favouritedStays?.some((obj) => obj._id === data._id)) {
-      axios
-        .delete(`http://localhost:4000/api/user/wishlists/${data._id}`, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          setFavouritedStays(prevData=>prevData.filter(item=>item._id!==data._id))
-          setFavColour("var(--ihf-tp-q)");
-
-        })
-        .catch((e) => console.log(e));
-
-    } else {
-      axios
-        .post(
-          `http://localhost:4000/api/user/wishlists/${data._id}`,
-          {},
-          {
+    if (authToken) {
+      if (favouritedStays?.some((obj) => obj._id === data._id)) {
+        axios
+          .delete(`http://localhost:4000/api/user/wishlists/${data._id}`, {
             headers: {
               Authorization: `Bearer ${authToken}`,
               "Content-Type": "application/json",
             },
-          }
-        )
-        .then((res) => {
-          console.log(res);
-         
-          setFavouritedStays((prevData)=>[...prevData,data])
-          setFavColour("red");
-        })
-        .catch((e) => console.log(e));
+          })
+          .then((res) => {
+            setFavouritedStays((prevData) =>
+              prevData.filter((item) => item._id !== data._id)
+            );
+            setFavColour("var(--ihf-tp-q)");
+          })
+          .catch((e) => console.log(e));
+      } else {
+        axios
+          .post(
+            `http://localhost:4000/api/user/wishlists/${data._id}`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            setFavouritedStays((prevData) => [...prevData, data]);
+            setFavColour("red");
+          })
+          .catch((e) => console.log(e));
       }
-    }else{
-      setSignIn(!signIn)
+    } else {
+      setSignIn(!signIn);
     }
   };
 
   useEffect(() => {
     if (favouritedStays?.some((obj) => obj._id === data._id)) {
       setFavColour("red");
+    } else {
+      setFavColour("black");
     }
   }, [favouritedStays]);
   return (
@@ -95,7 +91,11 @@ const {signIn, setSignIn}= useContext(myContext)
         onMouseEnter={() => setShowArrow(true)}
         onMouseLeave={() => setShowArrow(false)}
       >
-        <div className={`" absolute top-3 right-3 " ${favourite===false?"hidden":""} `}>
+        <div
+          className={`" absolute top-3 right-3 " ${
+            favourite === false ? "hidden" : ""
+          } `}
+        >
           <svg
             onClick={handleFavourite}
             xmlns="http://www.w3.org/2000/svg"

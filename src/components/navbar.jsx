@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LoginQuickAccess from "./loginQuickAccess";
 import SignInQuickNav from "./signInQuickNav";
 import { myContext } from "../App";
-export const Navbar = ({search}) => {
+export const Navbar = ({ search }) => {
   const { authToken } = useSelector((data) => data.auth);
 
   const { signUp, setSignUp, signIn, setSignIn } = useContext(myContext);
@@ -47,7 +47,11 @@ export const Navbar = ({search}) => {
         </Link>
       </div>
       <div className="flex-1 flex justify-center items-center ">
-        <div className={`"w-[360px] h-[50px] rounded-[25px] border-solid border-black border-[.5px] border-opacity-20 flex items-center justify-around shadow-lg " ${!search?"hidden":""}`}>
+        <div
+          className={`"w-[360px] h-[50px] rounded-[25px] border-solid border-black border-[.5px] border-opacity-20 flex items-center justify-around shadow-lg " ${
+            !search ? "hidden" : ""
+          }`}
+        >
           <input
             className="h-full ml-6 w-3/4 border-0 outline-none"
             placeholder="Anywhere | Any week | Add guests"
@@ -66,7 +70,11 @@ export const Navbar = ({search}) => {
               : toast("Please Login first") && setSignIn(!signIn);
           }}
         >
-         <span className={`${!search?"hidden":""}`}> Switch to hosting</span> <span className={`${search?"hidden":""}`}> airbnb your home</span>
+          <span className={`${!search ? "hidden" : ""}`}>
+            {" "}
+            Switch to hosting
+          </span>{" "}
+          <span className={`${search ? "hidden" : ""}`}> airbnb your home</span>
         </button>
 
         <button className="w-[30px] h-[30px] rounded-full">
@@ -123,7 +131,10 @@ export const Navbar = ({search}) => {
               : "hidden"
           }`}
         >
-          <SignUp setSignUp={setSignUp} />
+          <SignUp
+          {...{setSignUp,setSignIn,signIn,signUp}}
+      
+          />
         </div>
         <div
           className={`${
@@ -132,12 +143,10 @@ export const Navbar = ({search}) => {
               : "hidden"
           }`}
         >
-          <SignIn signIn={SignIn} setSignIn={setSignIn} />
+          <SignIn {...{setSignUp,setSignIn,signIn,signUp}} />
         </div>
       </div>
-      <div className="signIN">
-       
-      </div>
+      <div className="signIN"></div>
     </div>
   );
 };

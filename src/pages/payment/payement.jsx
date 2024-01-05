@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/pngegg 1.png";
 import globe from "../../assets/image 1.svg";
 import insta from "../../assets/insta.svg";
 import leftArrow from "../../assets/leftArrow.svg";
 import ins from "../../assets/icons8-instagram.svg";
 import twiiter from "../../assets/twiiter.svg";
-import sample from "../../assets/pro image 1.webp";
+// import sample from "../../assets/pro image 1.webp";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,18 +15,23 @@ import { toast } from "react-toastify";
 const Payment = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {authToken} = useSelector(data=>data.auth)
+  const { authToken } = useSelector((data) => data.auth);
 
   const params = new URLSearchParams(location.search);
   const data = JSON.parse(decodeURIComponent(params.get("data")));
-  const stay = data?.stay?._id
+  const stay = data?.stay?._id;
   const checkData = {
     data: {
       check_in_date: data.checkInDate,
       check_out_date: data.checkOutDate,
-      number_of_guests:data.maxGuests
+      number_of_guests: data.maxGuests,
+      total: data.total,
+      serviceFee: data.serviceFee,
+      nights: data.nights,
+      paymentTime:data.paymentRecievedTime,
+
     },
-  };
+  }
 
   const months = [
     "Jan",
@@ -47,7 +52,6 @@ const Payment = () => {
       new Date(data?.checkInDate)?.getTime()) /
       (1000 * 60 * 60 * 24)
   );
-  console.log(day);
   const Total = day * data?.stay?.price * data?.maxGuests;
 
   const initPayment = (datas) => {
@@ -59,31 +63,32 @@ const Payment = () => {
       description: "Test Payment",
       image: data?.stay?.images[0]?.url,
       order_id: datas.id,
-      handler: async (response) => {  
+      handler: async (response) => {
         try {
           const { data } = await axios.post(
             "http://localhost:4000/api/user/booking/order/verify",
             { response }
           );
+          console.log(data)
           if (data) {
             axios
               .post(
-                `http://localhost:4000/api/user/booking/${stay}`,checkData,
+                `http://localhost:4000/api/user/booking/${stay}`,
+                checkData,
                 {
                   headers: {
                     Authorization: `Bearer ${authToken}`,
                     "Content-Type": "application/json",
                   },
-                },
-               
+                }
               )
               .then((res) => {
-                
-                console.log(res)
-                if(res.status===200){
-                  toast("stay booked successfully")
+                console.log(res);
+                if (res.status === 200) {
+                  toast("stay booked successfully");
                 }
-              }).catch(err=>console.log(err))
+              })
+              .catch((err) => console.log(err));
           }
           console.log(data);
         } catch (error) {
@@ -98,7 +103,7 @@ const Payment = () => {
   const handlePayment = () => {
     axios
       .post("http://localhost:4000/api/user/booking/order/create", {
-        data: { amount: 40000},
+        data: { amount: 40000 },
       })
       .then((data) => {
         console.log(data);
@@ -191,7 +196,7 @@ const Payment = () => {
                 responsible for damage.
               </p>
             </div>
-              
+
             <button
               className="w-[200px] h-14 bg-pink-600 rounded-md text-white text-base p-3 font-semibold flex justify-center items-center mt-4 mb-10 "
               onClick={handlePayment}
