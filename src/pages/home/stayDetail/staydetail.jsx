@@ -86,13 +86,13 @@ export const StayDetail = () => {
 
   const handleApprove = (id) => {
     axios
-      .put(`http://localhost:4000/api/admin/verify/${id}`)
+      .put(`https://airbnb-2hlc.onrender.com/api/admin/verify/${id}`)
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
   };
   const handleDisapprove = (id) => {
     axios
-      .delete(`http://localhost:4000/api/admin/disapprove/${id}`)
+      .delete(`https://airbnb-2hlc.onrender.com/api/admin/disapprove/${id}`)
       .then((res) => {
         if (res.status === 200) {
           toast("Stay disapproved successfully");

@@ -41,7 +41,7 @@ export const StayCard = ({ data, favouritedStays, favourite }) => {
     if (authToken) {
       if (favouritedStays?.some((obj) => obj._id === data._id)) {
         axios
-          .delete(`http://localhost:4000/api/user/wishlists/${data._id}`, {
+          .delete(`https://airbnb-2hlc.onrender.com/api/user/wishlists/${data._id}`, {
             headers: {
               Authorization: `Bearer ${authToken}`,
               "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export const StayCard = ({ data, favouritedStays, favourite }) => {
       } else {
         axios
           .post(
-            `http://localhost:4000/api/user/wishlists/${data._id}`,
+            `https://airbnb-2hlc.onrender.com/api/user/wishlists/${data._id}`,
             {},
             {
               headers: {

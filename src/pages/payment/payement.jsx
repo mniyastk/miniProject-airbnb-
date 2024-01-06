@@ -102,7 +102,7 @@ const Payment = () => {
 
   const handlePayment = () => {
     axios
-      .post("http://localhost:4000/api/user/booking/order/create", {
+      .post("https://airbnb-2hlc.onrender.com/api/user/booking/order/create", {
         data: { amount: 40000 },
       })
       .then((data) => {
