@@ -31,7 +31,7 @@ function SignIn({ setSignUp, setSignIn, signIn, signUp }) {
         );
         toast.success("login successfull");
         axios
-          .get("http://localhost:4000/api/user/stays/wishlists", {
+          .get("https://airbnb-2hlc.onrender.com/api/user/stays/wishlists", {
             headers: {
               Authorization: `Bearer ${data.data.data.token}`,
               "Content-Type": "application/json",
@@ -43,6 +43,7 @@ function SignIn({ setSignUp, setSignIn, signIn, signUp }) {
         navigate("/");
       })
       .catch((e) => {
+        console.log(e.message);
         toast(e.response.data.message);
       });
   };
@@ -65,7 +66,7 @@ function SignIn({ setSignUp, setSignIn, signIn, signUp }) {
         )
         .then((res) => {
           axios
-            .post("http://localhost:4000/api/user/google/registration", { res })
+            .post("https://airbnb-2hlc.onrender.com/api/user/google/registration", { res })
             .then((res) => {
               dispatch(
                 setAuthToken({
@@ -79,7 +80,7 @@ function SignIn({ setSignUp, setSignIn, signIn, signUp }) {
                 toast.success("User registration successfull");
               }
               axios
-                .get("http://localhost:4000/api/user/stays/wishlists", {
+                .get("https://airbnb-2hlc.onrender.com/api/user/stays/wishlists", {
                   headers: {
                     Authorization: `Bearer ${res.data.token}`,
                     "Content-Type": "application/json",
@@ -91,6 +92,7 @@ function SignIn({ setSignUp, setSignIn, signIn, signUp }) {
               navigate("/");
             })
             .catch((err) => {
+              console.log(err);
              toast(err.response.data.message)
             });
         })
