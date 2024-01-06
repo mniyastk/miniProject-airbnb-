@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
+import favIcon from '../assets/favicon.png'
 
 import LoginQuickAccess from "./loginQuickAccess";
 import SignInQuickNav from "./signInQuickNav";
@@ -55,19 +56,20 @@ export const Navbar = ({ search }) => {
       .catch((e) => console.log(e));
   };
   return (
-    <div className="w-full h-[80px] flex border-b border-b-slate-300 sticky top-0 z-30 bg-white">
+    <div className="w-full h-[80px] flex border-b border-b-slate-300 sticky top-0 z-30 bg-white items-center">
       <div className="flex-1 flex items-center ">
         <Link to={"/"}>
           <img
             src={logo}
             alt="logo"
-            className="w-[104px] h-[31px] ml-10 hover:cursor-pointer"
+            className="w-[104px] h-[31px] ml-10 hover:cursor-pointer max-sm:hidden"
           />
+          <img src={favIcon} alt="small logo" className=" sm:hidden hover:cursor-pointer ml-5 h-[30px] w-[30px]"/>
         </Link>
       </div>
-      <div className="flex-1 flex justify-center items-center ">
+      <div className="flex-1 flex justify-center items-center  max-sm:w-[120px] max-sm:h-[40px] max-sm:flex-auto">
         <div
-          className={`"w-[360px] h-[50px] rounded-[25px] border-solid border-black border-[.5px] border-opacity-20 flex items-center justify-around shadow-lg " ${
+          className={`"w-[360px] h-[50px] max-sm:h-full  rounded-[25px] border-solid border-black border-[.5px] border-opacity-20 flex items-center justify-around shadow-lg  " ${
             !search ? "hidden" : ""
           }`}
         >
@@ -84,23 +86,23 @@ export const Navbar = ({ search }) => {
           </div>
         </div>
       </div>
-      <div className="flex-1  flex items-center justify-end ">
+      <div className="flex-1  flex items-center justify-end max-sm:ml-5">
         <button
-          className="w-[150px] h-[35px] font-semibold hover:"
+          className="w-[150px] h-[35px] font-semibold hover:cursor-pointer max-sm:hidden"
           onClick={() => {
             authToken
               ? navigate("/host")
               : toast("Please Login first") && setSignIn(!signIn);
           }}
         >
-          <span className={`${!search ? "hidden" : ""}`}>
+          <span className={`${!search ? "hidden" : ""}  `}>
             {" "}
             Switch to hosting
           </span>{" "}
-          <span className={`${search ? "hidden" : ""}`}> airbnb your home</span>
+          <span className={`${search ? "hidden" : ""}  `}> airbnb your home</span>
         </button>
 
-        <button className="w-[30px] h-[30px] rounded-full">
+        <button className="w-[30px] h-[30px] rounded-full max-sm:hidden">
           <img
             src={globe}
             alt="language"
