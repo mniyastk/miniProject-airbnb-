@@ -19,6 +19,7 @@ export const SignUp = ({setSignUp,setSignIn,signIn,signUp}) => {
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
+    
     axios
       .post("https://airbnb-2hlc.onrender.com/api/user/register", { data })
       .then(() => {

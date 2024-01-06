@@ -62,7 +62,7 @@ const Trips = () => {
   return (
     <div className="w-full h-full">
       <Navbar {...{ search }} />
-      <div className="p-20 h-max ">
+      <div className="p-20 h-max  max-sm:p-2">
         <h1 className="text-3xl font-semibold py-5">Trips</h1>
         <div
           className={`"w-full h-max border-y py-5 flex flex-col " ${
@@ -84,14 +84,14 @@ const Trips = () => {
           </button>
         </div>
         <div
-          className={`"w-full h-max border-y py-5 flex flex-col " ${
+          className={`"w-full h-max border-y py-5 flex flex-col  " ${
             bookings?.length !== 0 ? "" : "hidden"
           }`}
         >
           {bookings?.map((item) => {
             return (
-              <div className="flex items-center justify-between  ">
-                <div className=" overflow-hidden flex flex-col">
+              <div className="flex items-center justify-between max-sm:flex-col max-sm:items-start my-2 border rounded-md">
+                <div className=" overflow-hidden flex flex-col ">
                   <img
                     src={item?.stay?.images[0].url}
                     alt="stayImage"
@@ -102,6 +102,7 @@ const Trips = () => {
                     {item?.stay?.address.District_localty}
                   </span>
                 </div>
+               
                 <span className="font-semibold text-sm">
                   Check In Date :{" "}
                   {item.checkInDate.slice(0, 10).split("-").reverse().join("-")}
@@ -114,8 +115,10 @@ const Trips = () => {
                     .reverse()
                     .join("-")}
                 </span>
+             
+                <div className="flex ">
                 <button
-                  className="bg-red-500 rounded-md text-white font-semibold text-sm px-2 h-10"
+                  className="bg-red-500 rounded-md text-white font-semibold text-sm px-2 h-10 mr-3"
                   onClick={() =>{
                     setBillData(item)
                      setShowBill(!showBill)
@@ -129,6 +132,8 @@ const Trips = () => {
                 >
                   Cancel Booking
                 </button>
+                </div>
+                
               </div>
             );
           })}
@@ -147,10 +152,11 @@ const Trips = () => {
         </div>
       </div>
       <div
-        className={` " fixed top-0 bottom-0 left-0 right-0 m-auto w-1/2   overflow-scroll bg-white z-[900] pt-10 " ${
+        className={` " fixed top-0 bottom-0 left-0 right-0 m-auto w-1/2 max-sm:w-full  overflow-scroll bg-white z-[900] pt-10 " ${
           showBill ? "" : "hidden"
         }`}
       >
+       
         <Bill {...{ showBill, setShowBill,billData }} />
       </div>
 

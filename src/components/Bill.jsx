@@ -31,7 +31,13 @@ const Bill = ({ showBill, setShowBill ,billData}) => {
   const date = new Date();
 
   return (
-    <div className="bg-white w-full relative">
+    <div className="bg-white w-full relative ">
+        <div
+          className=" fixed top-2 sm:hidden left-2  rounded-full font-bold text-base  hover:cursor-pointer border w-6 h-6 flex justify-center items-center bg-white "
+          onClick={() => setShowBill(!showBill)}
+        >
+          x
+        </div>
       <div ref={pdfRef} className="w-full" >
         <div className=" w-full h-[max] p-10  border  ">
            
