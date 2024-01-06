@@ -5,38 +5,38 @@ import ins from "../assets/icons8-instagram.svg";
 import twiiter from "../assets/twiiter.svg";
 export const Footer = () => {
   return (
-    <div className="h-[410px] bg-[#F7F7F7]">
-      <div className="h-[80%] flex">
-        <div className="w-1/3 h-[100%] flex justify-center ">
+    <div className="h-[410px] bg-[#F7F7F7] max-sm:h-max max-sm:pl-4">
+      <div className="h-[80%] flex max-sm:flex-col">
+        <div className="w-1/3  h-[100%] flex justify-center max-sm:w-full max-sm:justify-start">
           <ul className="pt-[40px]">
-            <li className="font-bold">Support</li>
-            <li>Help Centre</li>
-            <li>Get help with a safety issue</li>
-            <li>AirCover</li>
-            <li>Anti-discrimination</li>
-            <li>Disability support</li>
-            <li>Cancellation options</li>
-            <li>Report neighbourhood concern</li>
+            <li className="mt-2 font-bold">Support</li>
+            <li className="mt-2">Help Centre</li>
+            <li className="mt-2">Get help with a safety issue</li>
+            <li className="mt-2">AirCover</li>
+            <li className="mt-2">Anti-discrimination</li>
+            <li className="mt-2">Disability support</li>
+            <li className="mt-2">Cancellation options</li>
+            <li className="mt-2">Report neighbourhood concern</li>
           </ul>
         </div>
-        <div className="w-1/3 flex justify-center pt-[40px]">
+        <div className="w-1/3  flex justify-center pt-[40px]">
           <ul>
-            <li className="font-bold">Hosting</li>
-            <li>Airbnb your home</li>
-            <li>AirCover for Hosts</li>
-            <li>Hosting resources</li>
-            <li>Community forum</li>
-            <li>Hosting responsibly</li>
+            <li className="mt-2 font-bold">Hosting</li>
+            <li className="mt-2">Airbnb your home</li>
+            <li className="mt-2">AirCover for Hosts</li>
+            <li className="mt-2">Hosting resources</li>
+            <li className="mt-2">Community forum</li>
+            <li className="mt-2">Hosting responsibly</li>
           </ul>
         </div>
-        <div className="w-1/3 flex justify-center pt-[40px] ">
+        <div className="w-1/3  flex justify-center pt-[40px] ">
           <ul>
-            <li className="font-bold">Airbnb</li>
-            <li>Newsroom</li>
-            <li>New features</li>
-            <li>Careers</li>
-            <li>Investors</li>
-            <li>Airbnb.org emergency stays</li>
+            <li className="mt-2 font-bold">Airbnb</li>
+            <li className="mt-2">Newsroom</li>
+            <li className="mt-2">New features</li>
+            <li className="mt-2">Careers</li>
+            <li className="mt-2">Investors</li>
+            <li className="mt-2">Airbnb.org emergency stays</li>
           </ul>
         </div>
       </div>

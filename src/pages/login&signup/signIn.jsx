@@ -101,9 +101,10 @@ function SignIn({ setSignUp, setSignIn, signIn, signUp }) {
   }, [googleAuth]);
 
   return (
-    <div className="w-3/4 flex flex-col justify-center items-center bg-white">
+    <div className="w-3/4 flex flex-col justify-center items-center bg-white max-sm:w-full ">
+      <div className="w-6 h-6  flex justify-center items-center rounded-full text-lg font-bold border hover:cursor-pointer absolute top-0 right-0 m-2 bg-black text-white" onClick={()=>setSignIn(!signIn)}>X</div>
       <form
-        className="w-full flex flex-col justify-center items-center"
+        className="w-full flex flex-col justify-center items-center max-sm:w-2/3"
         onSubmit={handleSubmit(handleClick)}
         ref={formRef}
       >

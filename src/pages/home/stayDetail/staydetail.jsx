@@ -125,13 +125,17 @@ console.log(id);
           <img src={leftArrow} alt="leftArrow" className="" />
         </div>
       </div>
-      <div className="px-[115px] pt-5">
+      <div className="w-full h-[300px] mt-5 sm:hidden">
+          <img src={data?.images[0]?.url} alt="stayImage" className="w-full h-full" />
+        </div>
+      <div className="px-[115px] pt-5 max-sm:px-6">
         <div className="">
           <h1 className="font-bold text-2xl">
             {data?.title}
             {/* Ocean view Room - White town || Rock beach */}
           </h1>
         </div>
+        
         <div className="flex justify-between items-center">
           <div className="flex ">
             {" "}
@@ -147,7 +151,8 @@ console.log(id);
             <p>Share</p> <img src={heart} alt="favourite" /> <p>Save</p>{" "}
           </div>
         </div>
-        <div className="flex  w-[100%] h-[300px] rounded-[25px]">
+       
+        <div className="flex  w-[100%] h-[300px] rounded-[25px] max-sm:hidden">
           <div className="w-[50%]  rounded-l-lg overflow-hidden">
             <img
               src={data?.images[0]?.url}
@@ -186,9 +191,9 @@ console.log(id);
             </div>
           </div>
         </div>
-        <div className="w-100% flex">
-          <div className=" w-[65%] mt-5">
-            <div className=" w-3/4 border-b flex justify-between items-center h-28">
+        <div className="w-100% flex max-sm:flex-col">
+          <div className=" w-[65%] mt-5 max-sm:w-full max-sm:h-max">
+            <div className=" w-3/4 border-b flex justify-between items-center h-28 max-sm:w-full">
               {" "}
               <div>
                 <p className="font-bold text-2xl">
@@ -208,7 +213,7 @@ console.log(id);
                 />
               </div>
             </div>
-            <div className="h-[250px] w-[75%] border-b">
+            <div className="h-[250px] w-[75%] border-b  max-sm:w-full">
               <div className="w-full h-1/3 flex">
                 <div className=" flex justify-center items-center w-1/6 h-full">
                   <img src={des1} alt="d" />
@@ -237,10 +242,10 @@ console.log(id);
                 </div>
               </div>
             </div>
-            <div className="h-[250px] w-[75%] border-b">
+            <div className="h-[250px] w-[75%] border-b  max-sm:w-full max-sm:h-max">
               <p className="py-8 ">{data?.description}</p>
             </div>
-            <div className="h-[380px] w-[75%] border-b mt-2">
+            <div className="h-[380px] w-[75%] border-b mt-2 max-sm:w-full">
               <p className="font-bold text-xl">What this place offers</p>
               <div className="flex w-full h-full flex-wrap">
                 <div className="w-full h-full flex flex-wrap overflow-hidden">
@@ -315,7 +320,7 @@ console.log(id);
           </div>
 
           <div
-            className={` " w-[35%] h-[520px] mt-7 sticky top-0 rounded-[20px] shadow-xl flex flex-col items-center "  ${
+            className={` " w-[35%] h-[520px] mt-7 sticky top-0 rounded-[20px] shadow-xl flex flex-col items-center max-sm:w-full "  ${
               info.admin ? "hidden" : ""
             }`}
           >
@@ -383,11 +388,11 @@ console.log(id);
                   />
                 </div>
               </div>
-              <div className="h-1/2 border-t">
+              <div className="h-1/2 border-t flex justify-center">
                 {" "}
                 <select
                   name="guests"
-                  className="w-full h-full outline-none pl-4 font-medium "
+                  className="w-full h-full outline-none pl-4 font-medium max-sm:w-2/3"
                   onChange={(e) => setGuestNumber(e.target.value)}
                 >
                   <option value={1}>1 guest</option>
@@ -444,7 +449,7 @@ console.log(id);
             </div>
           </div>
           <div className="w-full h-[300px]">
-            <div className="w-1/2">
+            <div className="w-1/2 max-sm:w-full">
               <div className="flex">
                 {" "}
                 <img src={star} alt="star" className="h-7 w-7 pr-3" />{" "}
@@ -477,7 +482,9 @@ console.log(id);
           </div>
         </div>
       </div>
-      <div className={`${info.admin ? "hidden" : ""}`}>
+      <div 
+      className={`${info.admin ? "hidden" : ""}`}
+      >
         {" "}
         <Footer />
       </div>

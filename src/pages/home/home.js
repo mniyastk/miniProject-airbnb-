@@ -4,6 +4,7 @@ import { navitems } from "../../data/menubar";
 import filter from "../../assets/Frame.svg";
 import rightArrow from "../../assets/rightArrow.svg";
 import leftArrow from "../../assets/leftArrow.svg";
+import category  from '../../assets/category.png'
 
 import { StayCard } from "../../components/stayCard";
 import { NavLink } from "react-router-dom";
@@ -64,7 +65,7 @@ export const Home = () => {
     <div className="relative">
       <Navbar {...{ search }} />
       <div className="h-[80px] flex sticky top-[80px] z-20 bg-white justify-around border-b">
-        <div className="h-full w-[85%] pl-10 overflow-hidden flex gap-10 justify-between relative  max-sm:pl-0">
+        <div className="h-full w-[70%] max-sm:w-[85%] pl-10 overflow-hidden flex gap-10 justify-between relative  max-sm:pl-0">
           <div
             className="absolute right-2 top-6 border rounded-full hover:cursor-pointer bg-white w-[35px] h-[35px] p-[10px] backdrop-blur-2xl z-10 max-sm:right-0 "
             onClick={handleRight}
@@ -100,7 +101,7 @@ export const Home = () => {
           </div>
         </div>
 
-        <div className="h-full w-[15%] flex items-center justify-around   max-sm:justify-center ">
+        <div className="h-full w-[30%] max-sm:w-[15%] flex items-center justify-around   max-sm:justify-center ">
           <button className="w-[93px] h-[50px] border flex justify-center items-center rounded-[20px] max-sm:w-[30px]  max-sm:h-[40px]">
             <img src={filter} alt="logo" />
             <span className="font-medium text-xs  max-sm:hidden">Filters</span>
@@ -116,14 +117,15 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      <div className="h-auto grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1  px-10  overflow-scroll  max-sm:justify-center  mt-2">
-        <div className={` ${defaultMessage ? "" : "hidden"}  w-[1300px] h-[500px] justify-center items-center flex font-extrabold text-2xl `}>
-          No stays available in this category
+      <div className="h-auto grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1  overflow-scroll sm:justify-center  max-sm:justify-center  mt-2 sm:px-5">
+        <div className={` ${defaultMessage ? "" : "hidden"}  w-screen h-full justify-center items-center flex font-extrabold text-2xl  `}>
+         <img src={category} alt="category" className="w-[350px] h-[350px]"/>
         </div>
         {stays.map((data, index) => {
           return (
             <NavLink
-            // className={"flex justify-center items-center"}
+            className={"flex justify-center items-center"}
+            key={index}
               to={{
                 pathname: `/user/stay/${data._id}`,
                 search: `?data=${encodeURIComponent(
@@ -131,7 +133,7 @@ export const Home = () => {
                 )}`,
               }}
             >
-              <StayCard {...{ data, favouritedStays }} key={index} />
+              <StayCard {...{ data, favouritedStays }}  />
             </NavLink>
           );
         })}

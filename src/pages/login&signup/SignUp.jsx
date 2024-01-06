@@ -92,6 +92,7 @@ export const SignUp = ({setSignUp,setSignIn,signIn,signUp}) => {
 
   return (
     <div className="w-full flex flex-col justify-center items-center h-full bg-white z-[999] rounded-md overflow-scroll">
+       <div className="w-6 h-6  flex justify-center items-center rounded-full text-lg font-bold border hover:cursor-pointer absolute top-0 right-0 m-2 bg-black text-white" onClick={()=>setSignUp(!signUp)}>X</div>
       <form
         className="flex flex-col w-3/5 justify-center h-max "
         onSubmit={handleSubmit(onSubmit)}

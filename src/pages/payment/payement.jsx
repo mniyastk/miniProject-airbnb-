@@ -83,16 +83,17 @@ const Payment = () => {
                 }
               )
               .then((res) => {
-                console.log(res);
+              
                 if (res.status === 200) {
                   toast("stay booked successfully");
+                  navigate(-2)
                 }
               })
-              .catch((err) => console.log(err));
+              .catch(() => toast("Booking failed"));
           }
-          console.log(data);
+        
         } catch (error) {
-          console.log(error);
+     toast("Reservation failed")
         }
       },
     };
@@ -122,7 +123,7 @@ const Payment = () => {
           />
         </Link>
       </div>
-      <div className=" h-max pt-20 pl-20 pr-20">
+      <div className=" h-max pt-20 pl-20 pr-20 max-sm:p-0">
         <div className="flex justify-start items-center ">
           <button
             className="w-10 h-10 rounded-full hover:bg-slate-100 p-3"
@@ -132,8 +133,8 @@ const Payment = () => {
           </button>
           <h1 className="text-3xl font-extrabold ml-4">Confirm and pay</h1>
         </div>
-        <div className="flex w-full h-max mt-5">
-          <div className="w-1/2 h-ful p-10 flex flex-col">
+        <div className="flex w-full h-max mt-5 max-sm:flex-col">
+          <div className="w-1/2 h-ful p-10 flex flex-col max-sm:w-full">
             <h2 className="font-extrabold text-2xl">Your trip</h2>
             <div className="w-full h-[150px] border-b">
               <div className="h-1/2 w-full flex justify-between items-center">
@@ -205,7 +206,7 @@ const Payment = () => {
             </button>
           </div>
 
-          <div className="w-1/2 h-ful relative p-10 ">
+          <div className="w-1/2 h-ful relative p-10 max-sm:w-full">
             <div className=" h-[414px] w-9/10 rounded-lg border sticky top-20 p-5 ">
               <div className="flex items center h-1/3 p-2 border-b pb-4">
                 <div className="rounded-md overflow-hidden w-[120px] ">
@@ -247,15 +248,15 @@ const Payment = () => {
           </div>
         </div>
       </div>
-      <div className="h-[80px] border-t flex ">
+      <div className="h-[80px] border-t flex max-sm:flex-col">
         <div className="w-1/2 h-[100%] flex justify-center items-center">
           <p className="font-semibold text-sm">
             © 2023 Airbnb, Inc. · Privacy · Terms · Sitemap · Company details
           </p>{" "}
         </div>
-        <div className="w-1/2  flex justify-end items-center">
+        <div className="w-1/2  flex justify-end items-center max-sm:justify-center max-sm:w-full">
           <img src={globe} alt="glo" className="pr-3" />
-          <p className="pr-3">English (IN) ₹ INR</p>{" "}
+          <p className="pr-3 ">English (IN) ₹ INR</p>{" "}
           <img src={insta} alt="facebook" className="pr-3" />
           <img src={ins} alt="instagram" className="pr-3" />{" "}
           <img src={twiiter} alt="twitter" className="pr-20" />
