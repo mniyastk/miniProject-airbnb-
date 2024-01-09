@@ -9,7 +9,7 @@ import { setAuthToken } from "../../redux/authSlice";
 import { myContext } from "../../App";
 import { useGoogleLogin } from "@react-oauth/google";
 
-function SignIn({ setSignUp, setSignIn, signIn, signUp }) {
+function SignIn({ setSignUp, setSignIn, signIn, signUp ,setOtp}) {
   const form = useForm();
   const formRef = useRef();
   const { register, handleSubmit, formState } = form;
@@ -18,6 +18,7 @@ function SignIn({ setSignUp, setSignIn, signIn, signUp }) {
   const dispatch = useDispatch();
   const [googleAuth, setGoogleAuth] = useState(null);
   const { setFavouritedStays } = useContext(myContext);
+  const [otpMessage,setOtpMessage]= useState(false)
   const handleClick = (data) => {
     axios
       .post("https://airbnb-2hlc.onrender.com/api/user/login", { data })
@@ -156,7 +157,21 @@ function SignIn({ setSignUp, setSignIn, signIn, signUp }) {
           >
             click here to sign up
           </span>
+
         </span>
+        <span className={`"font-semibold text-xs mt-2 " ${errors.password||errors.email?"":"hidden"} `}>
+          forgot password ?{" "}
+          <span
+            className=" underline hover:cursor-pointer hover:text-blue-400 ml-1"
+            onClick={() => {
+              setSignIn(false);
+              setSignUp(false);
+              setOtp(true)
+            }}
+          >
+            reset password
+          </span>
+          </span>
         {/* <input type="submit" value="dgdf" /> */}
       </form>
       <button className="gsi-material-button mt-4" onClick={() => login()}>

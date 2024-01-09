@@ -15,6 +15,7 @@ import LoginQuickAccess from "./loginQuickAccess";
 import SignInQuickNav from "./signInQuickNav";
 import { myContext } from "../App";
 import axios from "axios";
+import ForgotPassword from "../pages/login&signup/forgotPassword";
 export const Navbar = ({ search }) => {
   const { authToken } = useSelector((data) => data.auth);
   const [keyword, setKeyword] = useState("");
@@ -22,6 +23,7 @@ export const Navbar = ({ search }) => {
   const { signUp, setSignUp, signIn, setSignIn ,defaultMessage, setDefaultMessage,stays, setStays} = useContext(myContext);
 
   const [toggle, setToggle] = useState(false);
+  const [otp,setOtp] = useState(false)
   const navigate = useNavigate();
   const handleSignUp = () => {
     setSignUp(!signUp);
@@ -143,7 +145,7 @@ export const Navbar = ({ search }) => {
 
         <div
           className={`${
-            signUp || signIn
+            signUp || signIn ||otp
               ? "fixed top-0  bottom-0 right-0 left-0 m-auto bg-slate-600 opacity-40 z-20"
               : "hidden"
           }`}
@@ -165,7 +167,16 @@ export const Navbar = ({ search }) => {
               : "hidden"
           }`}
         >
-          <SignIn {...{ setSignUp, setSignIn, signIn, signUp }} />
+          <SignIn {...{ setSignUp, setSignIn, signIn, signUp ,otp,setOtp}} />
+        </div>
+        <div
+          className={`${
+            otp
+              ? "fixed top-0 bottom-0 left-0 right-0 m-auto w-1/3 h-3/4 bg-white z-50 rounded-md flex justify-center items-center max-sm:w-full"
+              : "hidden"
+          }`}
+        >
+          <ForgotPassword  />
         </div>
       </div>
       <div className="signIN"></div>

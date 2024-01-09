@@ -31,6 +31,7 @@ import DateRangePickerValue from "./components/test";
 import HostListings from "./pages/user/Listings/Listings";
 import { ToastContainer } from "react-toastify";
 import { AdminLogin } from "./pages/Admin/Admin_Login/AdminLogin";
+import EditListing from "./pages/host/editListing.jsx/EditListing";
 
 export const myContext = createContext();
 
@@ -69,6 +70,8 @@ function App() {
             <Route path="pending" element={<PendingListings />} />
             <Route path="dashboard" element={<Dashboard />} />
           </Route>
+          <Route path="/user/listing/edit/:id" element={<EditListing/>} />
+
           <Route path="/admin/pending/:id" element={<StayDetail />} />
           <Route path="/user/stay/:id" element={<StayDetail />} />
           <Route path="/host" element={<HostHome />} />

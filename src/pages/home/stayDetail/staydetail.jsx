@@ -38,9 +38,16 @@ export const StayDetail = () => {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(`https://airbnb-2hlc.onrender.com/api/${info.admin ? "admin" : "user"}/${id}`,{headers:{
-        Authorization : `Bearer ${adminToken}`
-      }})
+      .get(
+        `https://airbnb-2hlc.onrender.com/api/${
+          info.admin ? "admin" : "user"
+        }/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+          },
+        }
+      )
       .then((data) => {
         setData(data.data.data);
       })
@@ -51,7 +58,7 @@ export const StayDetail = () => {
         {
           headers: {
             id: id,
-            Authorization:`Bearer ${adminToken}`
+            Authorization: `Bearer ${adminToken}`,
           },
         },
         { id }
@@ -80,8 +87,7 @@ export const StayDetail = () => {
     total: Total,
     serviceFee: (Total * 14) / 100,
     nights,
-    paymentRecievedTime:new Date().toString()
-
+    paymentRecievedTime: new Date().toString(),
   };
 
   const handleApprove = (id) => {
@@ -105,9 +111,9 @@ export const StayDetail = () => {
         toast("Error in deletion");
       });
   };
-  const handleListing =(id)=>{
-console.log(id);
-  }
+  const handleListing = (id) => {
+    console.log(id);
+  };
 
   return (
     <div className="flex flex-col">
@@ -126,8 +132,12 @@ console.log(id);
         </div>
       </div>
       <div className="w-full h-[300px] mt-5 sm:hidden">
-          <img src={data?.images[0]?.url} alt="stayImage" className="w-full h-full" />
-        </div>
+        <img
+          src={data?.images[0]?.url}
+          alt="stayImage"
+          className="w-full h-full"
+        />
+      </div>
       <div className="px-[115px] pt-5 max-sm:px-6">
         <div className="">
           <h1 className="font-bold text-2xl">
@@ -135,7 +145,7 @@ console.log(id);
             {/* Ocean view Room - White town || Rock beach */}
           </h1>
         </div>
-        
+
         <div className="flex justify-between items-center">
           <div className="flex ">
             {" "}
@@ -151,7 +161,7 @@ console.log(id);
             <p>Share</p> <img src={heart} alt="favourite" /> <p>Save</p>{" "}
           </div>
         </div>
-       
+
         <div className="flex  w-[100%] h-[300px] rounded-[25px] max-sm:hidden">
           <div className="w-[50%]  rounded-l-lg overflow-hidden">
             <img
@@ -313,6 +323,21 @@ console.log(id);
               className={` " w-1/2 h-[50px] bg-[#FF385C] mt-3 rounded-md p-2 text-white font-semibold sticky top-[100px] "  ${
                 info.host ? "" : "hidden"
               }`}
+              onClick={() =>
+                navigate({
+                  pathname: `/user/listing/edit/${data?._id}`,
+                  search: `?data=${encodeURIComponent(
+                    JSON.stringify({data })
+                  )}`,
+                })
+              }
+            >
+              Edit Listing
+            </button>
+            <button
+              className={` " w-1/2 h-[50px] bg-[#FF385C] mt-3 rounded-md p-2 text-white font-semibold sticky top-[100px] "  ${
+                info.host ? "" : "hidden"
+               } `}
               onClick={() => handleListing(data?._id)}
             >
               Delete Listing
@@ -482,9 +507,7 @@ console.log(id);
           </div>
         </div>
       </div>
-      <div 
-      className={`${info.admin ? "hidden" : ""}`}
-      >
+      <div className={`${info.admin ? "hidden" : ""}`}>
         {" "}
         <Footer />
       </div>
