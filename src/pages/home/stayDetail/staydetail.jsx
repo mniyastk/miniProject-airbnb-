@@ -34,12 +34,13 @@ export const StayDetail = () => {
   // const [stay, setStay] = useState({});
   const [data, setData] = useState();
   const [dates, setDates] = useState([]);
+  const [host,setHost] =useState('')
   const { id } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
     axios
       .get(
-        `https://airbnb-2hlc.onrender.com/api/${
+        `http://localhost:4000/api/${
           info.admin ? "admin" : "user"
         }/${id}`,
         {
@@ -49,6 +50,8 @@ export const StayDetail = () => {
         }
       )
       .then((data) => {
+        console.log(data)
+        setHost(data.data.host)
         setData(data.data.data);
       })
       .catch((e) => console.log(e));
@@ -142,7 +145,7 @@ export const StayDetail = () => {
         <div className="">
           <h1 className="font-bold text-2xl">
             {data?.title}
-            {/* Ocean view Room - White town || Rock beach */}
+         
           </h1>
         </div>
 
@@ -207,7 +210,7 @@ export const StayDetail = () => {
               {" "}
               <div>
                 <p className="font-bold text-2xl">
-                  {data?.stayType} hosted by Shubhangi
+                  {data?.stayType} hosted by {host.name}
                 </p>
                 <p>
                   {data?.maxGuests} guests {data?.bedRooms} bedrooms{" "}
@@ -217,7 +220,7 @@ export const StayDetail = () => {
               <div className="rounded-[100%] w-10 h-10 overflow-hidden border">
                 {" "}
                 <img
-                  src={user}
+                  src={host.dp?host.dp:user}
                   alt="imag"
                   className=" w-full h-full bg-slate-500 "
                 />
@@ -238,7 +241,7 @@ export const StayDetail = () => {
                   <img src={des2} alt="f" />
                 </div>
                 <div className="flex flex-col justify-center">
-                  <p className="font-bold text-xl">Sajjad is a Superhost</p>
+                  <p className="font-bold text-xl">{host.name} is a Superhost</p>
                   <p>Superhosts are experienced, highly rated Hosts.</p>
                 </div>
               </div>

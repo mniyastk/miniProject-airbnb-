@@ -32,6 +32,7 @@ import HostListings from "./pages/user/Listings/Listings";
 import { ToastContainer } from "react-toastify";
 import { AdminLogin } from "./pages/Admin/Admin_Login/AdminLogin";
 import EditListing from "./pages/host/editListing.jsx/EditListing";
+import ResetPassword from "./pages/login&signup/resetPassword";
 
 export const myContext = createContext();
 
@@ -62,6 +63,7 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/user/reset" element={<ResetPassword/>}/>
           <Route path="/admin" element={<AdminLogin />}/>
           <Route path="/admin/operations" element={<AdminHome />}>
             <Route index element={<Dashboard />} />{" "}

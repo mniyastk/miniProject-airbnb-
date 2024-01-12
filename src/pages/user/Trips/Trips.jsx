@@ -105,15 +105,11 @@ const Trips = () => {
                
                 <span className="font-semibold text-sm">
                   Check In Date :{" "}
-                  {item.checkInDate.slice(0, 10).split("-").reverse().join("-")}
+                  {new Date(item.checkInDate).toDateString()}
                 </span>
                 <span className="font-semibold text-sm">
-                  Check Out Date :{" "}
-                  {item.checkOutDate
-                    .slice(0, 10)
-                    .split("-")
-                    .reverse()
-                    .join("-")}
+                  Check Out Date :
+                  {new Date(item.checkOutDate).toDateString()}
                 </span>
              
                 <div className="flex ">
