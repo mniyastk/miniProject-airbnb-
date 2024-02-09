@@ -40,7 +40,7 @@ export const StayDetail = () => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:4000/api/${
+        `https://airbnb-2hlc.onrender.com/api/${
           info.admin ? "admin" : "user"
         }/${id}`,
         {
